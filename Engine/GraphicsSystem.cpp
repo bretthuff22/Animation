@@ -11,6 +11,8 @@
 
 #include "GraphicsSystem.h"
 
+#include "Color.h"
+
 //====================================================================================================
 // Local Definitions
 //====================================================================================================
@@ -282,10 +284,9 @@ void GraphicsSystem::Terminate()
 
 //----------------------------------------------------------------------------------------------------
 
-void GraphicsSystem::BeginRender()
+void GraphicsSystem::BeginRender(const Color& clearColor)
 {
-	float ClearColor[4] = { 0.0f, 0.125f, 0.6f, 1.0f }; // RGBA
-	mpImmediateContext->ClearRenderTargetView(mpRenderTargetView, ClearColor);
+	mpImmediateContext->ClearRenderTargetView(mpRenderTargetView, *(float(*)[4])&clearColor);
 	mpImmediateContext->ClearDepthStencilView(mpDepthStencilView, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
 }
 
