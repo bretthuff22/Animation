@@ -28,6 +28,7 @@
 #include "MeshBuilder.h"
 #include "MeshRenderer.h"
 #include "MeshUtil.h"
+#include "Model.h"
 #include "PixelShader.h"
 #include "MeshBuffer.h"
 #include "Sampler.h"

@@ -11,6 +11,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DirectXTK_Desktop_2013", "E
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ImporterTest", "ImporterTest\ImporterTest.vcxproj", "{FDF334AA-779A-4412-BB43-9F165C0F3D03}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Importer", "Importer\Importer.vcxproj", "{7BB87158-0CA2-4FC7-BA76-8EC3D8EB8A9D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -45,6 +47,12 @@ Global
 		{FDF334AA-779A-4412-BB43-9F165C0F3D03}.Release|Win32.ActiveCfg = Release|Win32
 		{FDF334AA-779A-4412-BB43-9F165C0F3D03}.Release|Win32.Build.0 = Release|Win32
 		{FDF334AA-779A-4412-BB43-9F165C0F3D03}.Release|x64.ActiveCfg = Release|Win32
+		{7BB87158-0CA2-4FC7-BA76-8EC3D8EB8A9D}.Debug|Win32.ActiveCfg = Debug|Win32
+		{7BB87158-0CA2-4FC7-BA76-8EC3D8EB8A9D}.Debug|Win32.Build.0 = Debug|Win32
+		{7BB87158-0CA2-4FC7-BA76-8EC3D8EB8A9D}.Debug|x64.ActiveCfg = Debug|Win32
+		{7BB87158-0CA2-4FC7-BA76-8EC3D8EB8A9D}.Release|Win32.ActiveCfg = Release|Win32
+		{7BB87158-0CA2-4FC7-BA76-8EC3D8EB8A9D}.Release|Win32.Build.0 = Release|Win32
+		{7BB87158-0CA2-4FC7-BA76-8EC3D8EB8A9D}.Release|x64.ActiveCfg = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

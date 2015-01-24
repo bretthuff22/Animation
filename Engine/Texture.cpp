@@ -13,6 +13,7 @@
 
 #include "GraphicsSystem.h"
 #include <DDSTextureLoader.h>
+#include <WICTextureLoader.h>
 
 //====================================================================================================
 // Class Definitions
@@ -35,6 +36,10 @@ Texture::~Texture()
 void Texture::Initialize(GraphicsSystem& gs, const wchar_t* pFilename)
 {
 	CreateDDSTextureFromFile(gs.GetDevice(), pFilename, nullptr, &mpTexture);
+	if(mpTexture == nullptr)
+	{
+		CreateWICTextureFromFile(gs.GetDevice(), gs.GetContext(), pFilename, nullptr, &mpTexture);
+	}
 }
 
 //----------------------------------------------------------------------------------------------------

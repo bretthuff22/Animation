@@ -23,6 +23,7 @@
     <ClCompile Include="MeshBuilder.cpp" />
     <ClCompile Include="MeshRenderer.cpp" />
     <ClCompile Include="MeshUtil.cpp" />
+    <ClCompile Include="Model.cpp" />
     <ClCompile Include="PixelShader.cpp" />
     <ClCompile Include="Precompiled.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -58,6 +59,7 @@
     <ClInclude Include="MeshBuilder.h" />
     <ClInclude Include="MeshRenderer.h" />
     <ClInclude Include="MeshUtil.h" />
+    <ClInclude Include="Model.h" />
     <ClInclude Include="PixelShader.h" />
     <ClInclude Include="Precompiled.h" />
     <ClInclude Include="Random.h" />

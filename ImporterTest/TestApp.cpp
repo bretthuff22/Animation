@@ -49,20 +49,14 @@ void TestApp::OnInitialize(u32 width, u32 height)
 
 	mRenderer.Initialize(mGraphicsSystem);
 
-	LoadModel("../Data/Models/duck.fbx", mModel);
+	LoadModel("../Data/Models/soldier.x", mModel);
 }
 
 //----------------------------------------------------------------------------------------------------
 
 void TestApp::OnTerminate()
 {
-	for (u32 i = 0; i < (u32)mModel.mMeshes.size(); ++i)
-	{
-		mModel.mMeshes[i]->Destroy();
-		mModel.mMeshBuffers[i]->Terminate();
-	}
-	mModel.mMeshes.clear();
-	mModel.mMeshBuffers.clear();
+	mModel.Unload();
 
 	mRenderer.Terminate();
 	SimpleDraw::Terminate();
@@ -156,10 +150,7 @@ void TestApp::OnUpdate()
 
 		mRenderer.SetCamera(mCamera);
 
-		for (u32 i = 0; i < (u32)mModel.mMeshBuffers.size(); ++i)
-		{
-			mRenderer.Render(*mModel.mMeshBuffers[i], Math::Matrix::Identity());
-		}
+		mModel.Render(mRenderer);
 
 		SimpleDraw::Render(mCamera);
 
@@ -189,9 +180,9 @@ void TestApp::LoadModel(const char* filename, Model& model)
 			Mesh::Vertex* vertexIter = vertices;
 			for(u32 i = 0; i < aiMesh->mNumVertices; ++i)
 			{
-				vertexIter->position.x = aiMesh->mVertices[i].x * 0.1f;
-				vertexIter->position.y = aiMesh->mVertices[i].y * 0.1f;
-				vertexIter->position.z = aiMesh->mVertices[i].z * 0.1f;
+				vertexIter->position.x = aiMesh->mVertices[i].x;// * 0.1f;
+				vertexIter->position.y = aiMesh->mVertices[i].y;// * 0.1f;
+				vertexIter->position.z = aiMesh->mVertices[i].z;// * 0.1f;
 				++vertexIter;
 			}
 
@@ -243,4 +234,29 @@ void TestApp::LoadModel(const char* filename, Model& model)
 			mModel.mMeshBuffers.push_back(meshBuffer);
 		}
 	}
+
+	// Read material data
+	if(scene->HasMaterials())
+	{
+		for(u32 i = 0; i < scene->mNumMaterials; ++i)
+		{
+			aiMaterial* material = scene->mMaterials[i];
+
+			const u32 textureCount = material->GetTextureCount(aiTextureType_DIFFUSE);
+			for(u32 j = 0; j < textureCount; ++j)
+			{
+				aiString texturePath;
+				if(material->GetTexture(aiTextureType_DIFFUSE, j, &texturePath) == AI_SUCCESS)
+				{
+					textureNames.push_back(texturePath.C_Str());
+				}
+			}
+		}
+	}
+
+	// Read animation data
+	//if(scene->HasAnimations())
+	//{
+	//	model.mRoot = BuildSkeleton(*scene->mRootNode, model, nullptr);
+	//}
 }

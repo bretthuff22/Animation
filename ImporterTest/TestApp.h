@@ -17,12 +17,12 @@
 // Class Declarations
 //====================================================================================================
 
-class Model
-{
-public:
-	std::vector<Mesh*> mMeshes;
-	std::vector<MeshBuffer*> mMeshBuffers;
-};
+//class Model // Put into engine
+//{
+//public:
+//	std::vector<Mesh*> mMeshes;
+//	std::vector<MeshBuffer*> mMeshBuffers;
+//};
 
 class TestApp : public Application
 {
@@ -47,6 +47,7 @@ private:
 	MeshRenderer mRenderer;
 
 	Model mModel;
+	std::vector<std::string> textureNames;
 
 	bool mKeyStates[256];
 

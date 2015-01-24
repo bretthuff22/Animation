@@ -249,6 +249,9 @@ void GraphicsSystem::Initialize(HWND window, bool fullscreen)
 	mViewport.TopLeftY = 0;
 	mpImmediateContext->RSSetViewports(1, &mViewport);
 
+	// Initializes the com library
+	CoInitialize(nullptr);
+
 	// Set flag
 	mInitialized = true;
 
