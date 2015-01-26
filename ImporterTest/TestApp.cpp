@@ -49,7 +49,8 @@ void TestApp::OnInitialize(u32 width, u32 height)
 
 	mRenderer.Initialize(mGraphicsSystem);
 
-	LoadModel("../Data/Models/soldier.x", mModel);
+	mModel.Load(mGraphicsSystem, "../Data/Models/soldier1.txt");
+	//LoadModel("../Data/Models/soldier.x", mModel);
 }
 
 //----------------------------------------------------------------------------------------------------

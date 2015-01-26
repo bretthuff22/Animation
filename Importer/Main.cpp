@@ -29,19 +29,19 @@ void ImportModel(const char* infileName, const char* outfileName)
 	FILE* pFile = nullptr;
 	fopen_s(&pFile, outfileName, "a+");
 
-	fprintf_s(pFile, "MeshCount: %d/n", scene->mNumMeshes);
-	fprintf_s(pFile, "TextureCount: %d/n", scene->mNumTextures);
+	fprintf_s(pFile, "MeshCount: %d\n", scene->mNumMeshes);
+	fprintf_s(pFile, "TextureCount: %d\n", scene->mNumMaterials);
 
-	u32 numVertices = 0;
-	u32 numIndices = 0;
-	for(u32 meshIndex = 0; meshIndex < scene->mNumMeshes; ++meshIndex)
-	{
-		aiMesh* aiMesh = scene->mMeshes[meshIndex];
-		numVertices += aiMesh->mNumVertices;
-		numIndices += aiMesh->mNumFaces * 3;
-	}
-	fprintf_s(pFile, "VertexCount: %d/n", numVertices);
-	fprintf_s(pFile, "IndexCount: %d/n", numIndices);
+	//u32 numVertices = 0;
+	//u32 numIndices = 0;
+	//for(u32 meshIndex = 0; meshIndex < scene->mNumMeshes; ++meshIndex)
+	//{
+	//	aiMesh* aiMesh = scene->mMeshes[meshIndex];
+	//	numVertices += aiMesh->mNumVertices;
+	//	numIndices += aiMesh->mNumFaces * 3;
+	//}
+	//fprintf_s(pFile, "VertexCount: %d\n", numVertices);
+	//fprintf_s(pFile, "IndexCount: %d\n", numIndices);
 	
 	
 
@@ -50,6 +50,8 @@ void ImportModel(const char* infileName, const char* outfileName)
 		for(u32 meshIndex = 0; meshIndex < scene->mNumMeshes; ++meshIndex)
 		{
 			aiMesh* aiMesh = scene->mMeshes[meshIndex];
+			fprintf_s(pFile, "VertexCount: %d\n", aiMesh->mNumVertices);
+			fprintf_s(pFile, "IndexCount: %d\n", aiMesh->mNumFaces * 3);
 			
 			//Mesh* mesh = new Mesh();
 
@@ -57,14 +59,14 @@ void ImportModel(const char* infileName, const char* outfileName)
 			//Mesh::Vertex* vertexIter = vertices;
 			for(u32 i = 0; i < aiMesh->mNumVertices; ++i)
 			{
-				fprintf_s(pFile, "%d %d %d ", aiMesh->mVertices[i].x, aiMesh->mVertices[i].y, aiMesh->mVertices[i].z);// * 0.1f;
+				fprintf_s(pFile, "%f %f %f ", aiMesh->mVertices[i].x, aiMesh->mVertices[i].y, aiMesh->mVertices[i].z);// * 0.1f;
 				if(aiMesh->HasNormals())
 				{
-					fprintf_s(pFile, "%d %d %d/n", aiMesh->mNormals[i].x, aiMesh->mNormals[i].y, aiMesh->mNormals[i].z);// * 0.1f;
+					fprintf_s(pFile, "%f %f %f\n", aiMesh->mNormals[i].x, aiMesh->mNormals[i].y, aiMesh->mNormals[i].z);// * 0.1f;
 				}
 				else
 				{
-					fprintf_s(pFile, "/n");
+					fprintf_s(pFile, "\n");
 				}
 
 			}
@@ -75,7 +77,7 @@ void ImportModel(const char* infileName, const char* outfileName)
 				//Mesh::Vertex* vertexIter = vertices;
 				for (u32 j = 0; j < aiMesh->mNumVertices; ++j)
 				{
-					fprintf_s(pFile, "%d %d /n", aiMesh->mTextureCoords[i][j].x, aiMesh->mTextureCoords[i][j].y);
+					fprintf_s(pFile, "%f %f\n", aiMesh->mTextureCoords[i][j].x, aiMesh->mTextureCoords[i][j].y);
 				}
 
 				// TODO - Only get the first set of uv for now
@@ -84,7 +86,7 @@ void ImportModel(const char* infileName, const char* outfileName)
 
 			for(u32 i = 0; i < aiMesh->mNumFaces; ++i)
 			{
-				fprintf_s(pFile, "%d %d %d /n", aiMesh->mFaces[i].mIndices[0], aiMesh->mFaces[i].mIndices[1], aiMesh->mFaces[i].mIndices[2]);
+				fprintf_s(pFile, "%d %d %d\n", aiMesh->mFaces[i].mIndices[0], aiMesh->mFaces[i].mIndices[1], aiMesh->mFaces[i].mIndices[2]);
 			}
 		}
 	}
@@ -103,7 +105,7 @@ void ImportModel(const char* infileName, const char* outfileName)
 				if(material->GetTexture(aiTextureType_DIFFUSE, j, &texturePath) == AI_SUCCESS)
 				{
 					fprintf_s(pFile, texturePath.C_Str());
-					fprintf_s(pFile, "/n");
+					fprintf_s(pFile, "\n");
 				}
 			}
 		}
