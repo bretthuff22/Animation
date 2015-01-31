@@ -45,6 +45,7 @@ struct Matrix
 	static Matrix RotationY(f32 rad);
 	static Matrix RotationZ(f32 rad);
 	static Matrix RotationAxis(const Vector3& axis, f32 rad);
+	static Matrix RotationQuaternion(const Quaternion& q);
 	static Matrix Scaling(f32 s);
 	static Matrix Scaling(f32 sx, f32 sy, f32 sz);
 	static Matrix Scaling(const Vector3& s);

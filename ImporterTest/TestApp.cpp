@@ -127,7 +127,7 @@ void TestApp::OnUpdate()
 		mTimer.Update();
 
 		// Camera movement
-		const float kMoveSpeed = 100.0f;
+		const float kMoveSpeed = 10.0f;
 		const float kTurnSpeed = 5.0f;
 		if (mKeyStates[VK_UP] || mKeyStates['W'])
 		{

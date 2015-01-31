@@ -5,6 +5,7 @@
 // Forward Declarations
 //=============================================================================
 
+struct Bone;
 class GraphicsSystem;
 class Mesh; 
 class MeshBuffer;
@@ -24,11 +25,16 @@ public:
 	void Load(GraphicsSystem& gs, const char* pFileName);
 	void Unload();
 
-	void Render(MeshRenderer& renderer);
+	void Render(MeshRenderer& renderer) const;
 	
 	NONCOPYABLE(Model);
 
 	std::vector<Mesh*> mMeshes;
+	
+	Bone* mRoot;
+	std::vector<Bone*> mBones;
+	std::map<std::string, u32> mBoneIndexMap;
+
 	std::vector<MeshBuffer*> mMeshBuffers;
 	std::vector<Texture*> mTextures;
 };

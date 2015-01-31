@@ -16,6 +16,9 @@
     <Filter Include="Math">
       <UniqueIdentifier>{b291b0c4-debf-4dfb-a9aa-49c22b619c40}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Graphics\Animations">
+      <UniqueIdentifier>{86a5384a-7dde-48bc-a6f5-94a23c0d1e4e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="InputSystem.cpp">
@@ -87,6 +90,25 @@
     </ClCompile>
     <ClCompile Include="Model.cpp">
       <Filter>Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Hash.cpp" />
+    <ClCompile Include="ID.cpp" />
+    <ClCompile Include="ModelComponent.cpp" />
+    <ClCompile Include="RenderService.cpp" />
+    <ClCompile Include="TextureManager.cpp" />
+    <ClCompile Include="TransformComponent.cpp" />
+    <ClCompile Include="GameObject.cpp" />
+    <ClCompile Include="Bone.cpp">
+      <Filter>Graphics\Animations</Filter>
+    </ClCompile>
+    <ClCompile Include="AnimationClip.cpp">
+      <Filter>Graphics\Animations</Filter>
+    </ClCompile>
+    <ClCompile Include="BoneAnimation.cpp">
+      <Filter>Graphics\Animations</Filter>
+    </ClCompile>
+    <ClCompile Include="Keyframe.cpp">
+      <Filter>Graphics\Animations</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -183,6 +205,34 @@
     <ClInclude Include="Model.h">
       <Filter>Graphics</Filter>
     </ClInclude>
+    <ClInclude Include="Hash.h" />
+    <ClInclude Include="ID.h" />
+    <ClInclude Include="MetaTypes.h" />
+    <ClInclude Include="ModelComponent.h" />
+    <ClInclude Include="RenderService.h" />
+    <ClInclude Include="Repository.h" />
+    <ClInclude Include="RepositoryTypes.h" />
+    <ClInclude Include="Resource.h" />
+    <ClInclude Include="ResourceManager.h" />
+    <ClInclude Include="Service.h" />
+    <ClInclude Include="TextureManager.h" />
+    <ClInclude Include="TransformComponent.h" />
+    <ClInclude Include="GameObject.h" />
+    <ClInclude Include="Quaternion.h">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Bone.h">
+      <Filter>Graphics\Animations</Filter>
+    </ClInclude>
+    <ClInclude Include="AnimationClip.h">
+      <Filter>Graphics\Animations</Filter>
+    </ClInclude>
+    <ClInclude Include="BoneAnimation.h">
+      <Filter>Graphics\Animations</Filter>
+    </ClInclude>
+    <ClInclude Include="Keyframe.h">
+      <Filter>Graphics\Animations</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Vector3.inl">
@@ -192,6 +242,13 @@
       <Filter>Math</Filter>
     </None>
     <None Include="EngineMath.inl">
+      <Filter>Math</Filter>
+    </None>
+    <None Include="MetaTypeDefines.tup" />
+    <None Include="Repository.inl" />
+    <None Include="ResourceManager.inl" />
+    <None Include="Service.inl" />
+    <None Include="Quaternion.inl">
       <Filter>Math</Filter>
     </None>
   </ItemGroup>

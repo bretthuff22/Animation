@@ -23,10 +23,10 @@ void Model::Load(GraphicsSystem& gs, const char* pFileName)
 	// Model loading
 	FILE* pFile = nullptr;
 	fopen_s(&pFile, pFileName, "r");
-	int numMesh = 0;
-	int numTextures = 0;
-	int numVertices = 0;
-	int numIndices = 0;
+	u32 numMesh = 0;
+	u32 numTextures = 0;
+	u32 numVertices = 0;
+	u32 numIndices = 0;
 	
 	char buffer[256];
 	fscanf_s(pFile, "%s", buffer, 256);
@@ -123,6 +123,9 @@ void Model::Load(GraphicsSystem& gs, const char* pFileName)
 		mTextures.push_back(texture);
 	}
 
+	//TODO: BONES
+	//TODO: WEIGHTS
+
 	fclose(pFile);
 }
 
@@ -150,7 +153,7 @@ void Model::Unload()
 	mTextures.clear();
 }
 
-void Model::Render(MeshRenderer& renderer)
+void Model::Render(MeshRenderer& renderer) const 
 {
 	for (u32 i = 0; i < (u32)mMeshBuffers.size(); ++i)
 	{
