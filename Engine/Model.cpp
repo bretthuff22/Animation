@@ -15,7 +15,11 @@ Model::Model()
 
 Model::~Model()
 {
-
+	for (u32 i = 0; i < (u32)mBones.size(); ++i)
+	{
+		SafeDelete(mBones[i]);
+	}
+	mBones.clear();
 }
 
 void Model::Load(GraphicsSystem& gs, const char* pFileName)
