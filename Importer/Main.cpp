@@ -36,6 +36,10 @@ Bone* BuildSkeleton(aiNode& aiNode, Model& model, Bone* parent)
 
 	bone->transform = *(Math::Matrix*)&(aiNode.mTransformation);
 	bone->parent = parent;
+	if (parent != nullptr)
+	{
+		bone->parentIndex = parent->index;
+	}
 
 	for(u32 i = 0; i < aiNode.mNumChildren; ++i)
 	{
@@ -213,12 +217,14 @@ void ImportModel(const char* infileName, const char* outfileName)
 		model.mRoot = BuildSkeleton(*scene->mRootNode, model, nullptr);
 	}
 
+	fprintf_s(pFile, "NumBones: %d\n", model.mBones.size());
+
 	for(u32 boneIndex = 0; boneIndex < model.mBones.size(); ++boneIndex)
 	{
 		Bone* bone = model.mBones[boneIndex];
 
 		//		-> name
-		fprintf_s(pFile, "Bone name: %s", bone->name.c_str());
+		fprintf_s(pFile, "BoneName: %s", bone->name.c_str());
 		fprintf_s(pFile, "\n");
 
 		//		-> parent index
@@ -226,7 +232,7 @@ void ImportModel(const char* infileName, const char* outfileName)
 
 		//		-> children indices
 		u16 size = bone->children.size();
-		fprintf_s(pFile, "Number of children: %d\n", size);
+		fprintf_s(pFile, "NumberOfChildren: %d\n", size);
 		for(u16 i = 0; i < size; ++i)
 		{
 			fprintf_s(pFile, "%d ", bone->children[i]->index);
@@ -243,7 +249,7 @@ void ImportModel(const char* infileName, const char* outfileName)
 				  bone->transform._31, bone->transform._32, bone->transform._33, bone->transform._34, 
 				  bone->transform._41, bone->transform._42, bone->transform._43, bone->transform._44); 
 		//		-> offset transform
-		fprintf_s(pFile, "Offset Transform: %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f \n", 
+		fprintf_s(pFile, "OffsetTransform: %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f \n", 
 				  bone->offsetTransform._11, bone->offsetTransform._12, bone->offsetTransform._13, bone->offsetTransform._14, 
 				  bone->offsetTransform._21, bone->offsetTransform._22, bone->offsetTransform._23, bone->offsetTransform._24, 
 				  bone->offsetTransform._31, bone->offsetTransform._32, bone->offsetTransform._33, bone->offsetTransform._34, 
@@ -257,6 +263,7 @@ void ImportModel(const char* infileName, const char* outfileName)
 		Mesh* mesh = model.mMeshes[meshIndex];
 		const VertexWeights& vertexWeights = mesh->GetVertexWeights();
 		u32 numVertexWeights = vertexWeights.size();
+		fprintf_s(pFile, "NumVertexWeights: %d\n", numVertexWeights);
 
 		for(u32 weightIndex = 0; weightIndex < numVertexWeights; ++weightIndex)
 		{

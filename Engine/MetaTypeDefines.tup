@@ -1,0 +1,13 @@
+//====================================================================================================
+// Filename:	MetaTypeDefines.tup
+// Created by:	Peter Chan
+//====================================================================================================
+
+DEFTYPE(GameObject)
+
+// Components
+DEFTYPE(ModelComponent)
+DEFTYPE(TransformComponent)
+
+// Services
+DEFTYPE(RenderService)

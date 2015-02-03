@@ -207,7 +207,6 @@
     </ClInclude>
     <ClInclude Include="Hash.h" />
     <ClInclude Include="ID.h" />
-    <ClInclude Include="MetaTypes.h" />
     <ClInclude Include="ModelComponent.h" />
     <ClInclude Include="RenderService.h" />
     <ClInclude Include="Repository.h" />
@@ -233,6 +232,7 @@
     <ClInclude Include="Keyframe.h">
       <Filter>Graphics\Animations</Filter>
     </ClInclude>
+    <ClInclude Include="MetaTypes.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Vector3.inl">
@@ -244,12 +244,12 @@
     <None Include="EngineMath.inl">
       <Filter>Math</Filter>
     </None>
-    <None Include="MetaTypeDefines.tup" />
     <None Include="Repository.inl" />
     <None Include="ResourceManager.inl" />
     <None Include="Service.inl" />
     <None Include="Quaternion.inl">
       <Filter>Math</Filter>
     </None>
+    <None Include="MetaTypeDefines.tup" />
   </ItemGroup>
 </Project>
