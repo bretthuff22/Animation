@@ -125,7 +125,7 @@ void Model::Load(GraphicsSystem& gs, const char* pFileName)
 	u32 numBones = 0;
 	fscanf_s(pFile, "%s", buffer, 256);
 	fscanf_s(pFile, "%d\n", &numBones, 256);
-	mBones.resize(numBones);
+	//mBones.resize(numBones);
 
 	for (u32 i = 0; i < numBones; ++i)
 	{
@@ -133,30 +133,24 @@ void Model::Load(GraphicsSystem& gs, const char* pFileName)
 
 		//		-> name
 		fscanf_s(pFile, "%s", buffer, 256);
-		fscanf_s(pFile, "%s\n", &bone->name, 256);
+		fscanf_s(pFile, "%s\n", buffer, 256);
+		bone->name = buffer;
 		//		-> parent index
 		fscanf_s(pFile, "%s", buffer, 256);
 		fscanf_s(pFile, "%d\n", &bone->parentIndex, 256);
-		if (bone->parentIndex != -1)
-		{
-			bone->parent = mBones[bone->parentIndex];
-		}
-		else
-		{
-			mRoot = bone;
-		}
+		
 		
 		//		-> children indices
-		u16 size = 0;
+		u32 size = 0;
 		fscanf_s(pFile, "%s", buffer, 256);
 		fscanf_s(pFile, "%d\n", &size, 256);
-		//bone->children.resize(size);
+		bone->childrenIndex.resize(size);
 
-		for (u16 j = 0; j < size; ++j)
+		for (u32 j = 0; j < size; ++j)
 		{
-			u16 childIndex = 0;
+			u32 childIndex = 0;
 			fscanf_s(pFile, "%d ", &childIndex, 256);
-			bone->children.push_back(mBones[childIndex]);
+			bone->childrenIndex[j] = childIndex;
 			if (j == size - 1)
 			{
 				fscanf_s(pFile, "\n");
@@ -184,6 +178,30 @@ void Model::Load(GraphicsSystem& gs, const char* pFileName)
 
 		mBones.push_back(bone);
 	}
+
+	Bone* boneIter = mBones.front();
+	for (u32 i = 0; i < numBones; ++i)
+	{
+		if (boneIter->parentIndex != -1)
+		{
+			boneIter->parent = mBones[boneIter->parentIndex];
+		}
+		else
+		{
+			mRoot = boneIter;
+		}
+
+		for (u32 j = 0; j < boneIter->childrenIndex.size(); ++j)
+		{
+			boneIter->children.push_back(mBones[boneIter->childrenIndex[j]]);
+		}
+
+		if (i + 1 < numBones)
+		{
+			boneIter = mBones[i + 1];
+		}
+	}
+	
 	//TODO: WEIGHTS
 	for (u32 meshIndex = 0; meshIndex < mMeshes.size(); ++meshIndex)
 	{
@@ -191,14 +209,22 @@ void Model::Load(GraphicsSystem& gs, const char* pFileName)
 		fscanf_s(pFile, "%s", buffer, 256);
 		fscanf_s(pFile, "%d\n", &numVertexWeights, 256);
 		mMeshes[meshIndex]->GetVertexWeights().resize(numVertexWeights);
+		
 
 		for (u32 weightIndex = 0; weightIndex < numVertexWeights; ++weightIndex)
 		{
 			u32 numWeights = 0;
 			fscanf_s(pFile, "%d ", &numWeights);
+			mMeshes[meshIndex]->GetVertexWeights()[weightIndex].resize(numWeights);
+
 			for (u32 bIndex = 0; bIndex < numWeights; ++bIndex)
 			{
-				fscanf_s(pFile, "%d %f ", &mMeshes[meshIndex]->GetVertexWeights()[weightIndex][bIndex].boneIndex, &mMeshes[meshIndex]->GetVertexWeights()[weightIndex][bIndex].weight, 256);
+				u32 boneIndex = 0;
+				f32 weight = 0.0f;
+				fscanf_s(pFile, "%d %f ", &boneIndex, &weight, 256);
+				mMeshes[meshIndex]->GetVertexWeights()[weightIndex][bIndex].boneIndex = boneIndex;
+				mMeshes[meshIndex]->GetVertexWeights()[weightIndex][bIndex].weight = weight;
+
 			}
 			fscanf_s(pFile, "\n");
 		}
