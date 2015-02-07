@@ -46,11 +46,15 @@ void TestApp::OnInitialize(u32 width, u32 height)
 	const u32 windowHeight = mGraphicsSystem.GetHeight();
 
 	mCamera.Setup(Math::kPiByTwo, (f32)windowWidth / (f32)windowHeight, 0.01f, 1000.0f);
+	mCamera.SetPosition(Math::Vector3(0.0f, 2.0f, 1.0f));
+	mCamera.SetLookAt(Math::Vector3(0.0f, 1.0f, 0.0f));
 
 	mRenderer.Initialize(mGraphicsSystem);
 
 	mModel.Load(mGraphicsSystem, "../Data/Models/soldier1.txt");
-	//LoadModel("../Data/Models/soldier.x", mModel);
+	
+	mAnimationController.Initialize(mModel);
+	mAnimationController.StartClip(*mModel.mAnimations[0], true);
 }
 
 //----------------------------------------------------------------------------------------------------

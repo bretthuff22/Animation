@@ -19,6 +19,12 @@
     <Filter Include="Graphics\Animations">
       <UniqueIdentifier>{86a5384a-7dde-48bc-a6f5-94a23c0d1e4e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Graphics\Mesh">
+      <UniqueIdentifier>{c224f282-eae7-4c4d-b7a2-c99c8983efbb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics\Shaders">
+      <UniqueIdentifier>{d763a2f1-76e3-41b6-b328-f789a840b5c2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="InputSystem.cpp">
@@ -52,25 +58,7 @@
     <ClCompile Include="Texture.cpp">
       <Filter>Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="ConstantBuffer.cpp">
-      <Filter>Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="MeshUtil.cpp">
-      <Filter>Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Mesh.cpp">
-      <Filter>Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="MeshBuilder.cpp">
-      <Filter>Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="PixelShader.cpp">
-      <Filter>Graphics</Filter>
-    </ClCompile>
     <ClCompile Include="Sampler.cpp">
-      <Filter>Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="VertexShader.cpp">
       <Filter>Graphics</Filter>
     </ClCompile>
     <ClCompile Include="Heightmap.cpp">
@@ -81,12 +69,6 @@
     </ClCompile>
     <ClCompile Include="EngineMath.cpp">
       <Filter>Math</Filter>
-    </ClCompile>
-    <ClCompile Include="MeshBuffer.cpp">
-      <Filter>Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="MeshRenderer.cpp">
-      <Filter>Graphics</Filter>
     </ClCompile>
     <ClCompile Include="Model.cpp">
       <Filter>Graphics</Filter>
@@ -108,6 +90,33 @@
       <Filter>Graphics\Animations</Filter>
     </ClCompile>
     <ClCompile Include="Keyframe.cpp">
+      <Filter>Graphics\Animations</Filter>
+    </ClCompile>
+    <ClCompile Include="Mesh.cpp">
+      <Filter>Graphics\Mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="MeshBuffer.cpp">
+      <Filter>Graphics\Mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="MeshBuilder.cpp">
+      <Filter>Graphics\Mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="MeshRenderer.cpp">
+      <Filter>Graphics\Mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="MeshUtil.cpp">
+      <Filter>Graphics\Mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="PixelShader.cpp">
+      <Filter>Graphics\Shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="ConstantBuffer.cpp">
+      <Filter>Graphics\Shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="VertexShader.cpp">
+      <Filter>Graphics\Shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="AnimationController.cpp">
       <Filter>Graphics\Animations</Filter>
     </ClCompile>
   </ItemGroup>
@@ -154,25 +163,7 @@
     <ClInclude Include="Texture.h">
       <Filter>Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="ConstantBuffer.h">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Mesh.h">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="MeshBuilder.h">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="MeshUtil.h">
-      <Filter>Graphics</Filter>
-    </ClInclude>
     <ClInclude Include="Sampler.h">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="VertexShader.h">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="PixelShader.h">
       <Filter>Graphics</Filter>
     </ClInclude>
     <ClInclude Include="Heightmap.h">
@@ -195,12 +186,6 @@
     </ClInclude>
     <ClInclude Include="Vector2.h">
       <Filter>Math</Filter>
-    </ClInclude>
-    <ClInclude Include="MeshBuffer.h">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="MeshRenderer.h">
-      <Filter>Graphics</Filter>
     </ClInclude>
     <ClInclude Include="Model.h">
       <Filter>Graphics</Filter>
@@ -233,6 +218,33 @@
       <Filter>Graphics\Animations</Filter>
     </ClInclude>
     <ClInclude Include="MetaTypes.h" />
+    <ClInclude Include="Mesh.h">
+      <Filter>Graphics\Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="MeshBuffer.h">
+      <Filter>Graphics\Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="MeshBuilder.h">
+      <Filter>Graphics\Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="MeshRenderer.h">
+      <Filter>Graphics\Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="MeshUtil.h">
+      <Filter>Graphics\Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="PixelShader.h">
+      <Filter>Graphics\Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="ConstantBuffer.h">
+      <Filter>Graphics\Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="VertexShader.h">
+      <Filter>Graphics\Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="AnimationController.h">
+      <Filter>Graphics\Animations</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Vector3.inl">

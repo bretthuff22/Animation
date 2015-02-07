@@ -43,9 +43,9 @@ private:
 
 	GraphicsSystem mGraphicsSystem;
 	Camera mCamera;
-
 	MeshRenderer mRenderer;
 
+	AnimationController mAnimationController;
 	Model mModel;
 	std::vector<std::string> textureNames;
 

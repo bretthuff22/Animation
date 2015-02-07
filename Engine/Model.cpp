@@ -7,6 +7,8 @@
 #include "MeshRenderer.h"
 #include "GraphicsSystem.h"
 #include "Bone.h"
+#include "AnimationClip.h"
+#include "BoneAnimation.h"
 
 
 Model::Model()
@@ -121,6 +123,53 @@ void Model::Load(GraphicsSystem& gs, const char* pFileName)
 		mTextures.push_back(texture);
 	}
 
+	// ANIMATIONS
+	u32 numAnimations = 0;
+	fscanf_s(pFile, "%s", buffer, 256);
+	fscanf_s(pFile, "%d\n", &numAnimations);
+
+	for(u32 animIndex = 0; animIndex < numAnimations; ++animIndex)
+	{
+		AnimationClip* animClip = new AnimationClip();
+
+		fscanf_s(pFile, "%s\n", buffer, 256);
+		animClip->mName = buffer;
+
+		fscanf_s(pFile, "%f\n", &animClip->mDuration);
+		fscanf_s(pFile, "%f\n", &animClip->mTicksPerSecond);
+
+		u32 numChannels = 0;
+		fscanf_s(pFile, "%s", buffer, 256);
+		fscanf_s(pFile, "%d\n", &numChannels);
+		
+		for(u32 boneAnimIndex = 0; boneAnimIndex < numChannels; ++boneAnimIndex)
+		{
+			BoneAnimation* boneAnim = new BoneAnimation();
+
+			fscanf_s(pFile, "%d\n", &boneAnim->mBoneIndex);
+
+			u32 numPositionKeys = 0;
+			fscanf_s(pFile, "%s", buffer, 256);
+			fscanf_s(pFile, "%d\n", &numPositionKeys);
+
+			for(u32 keyIndex = 0; keyIndex < numPositionKeys; ++keyIndex)
+			{
+				Keyframe* keyframe = new Keyframe();
+
+				fscanf_s(pFile, "%f %f %f\n", &keyframe->mTranslation.x, &keyframe->mTranslation.y, &keyframe->mTranslation.z);
+				fscanf_s(pFile, "%f %f %f %f\n", &keyframe->mRotation.x, &keyframe->mRotation.y, &keyframe->mRotation.z, &keyframe->mRotation.w);
+				fscanf_s(pFile, "%f %f %f\n", &keyframe->mScale.x, &keyframe->mScale.y, &keyframe->mScale.z);
+				fscanf_s(pFile, "%f\n", &keyframe->mTime);
+
+				boneAnim->mKeyframes.push_back(keyframe);
+			}
+
+			animClip->mBoneAnimations.push_back(boneAnim);
+		}
+
+		mAnimations.push_back(animClip);
+	}
+
 	// BONES
 	u32 numBones = 0;
 	fscanf_s(pFile, "%s", buffer, 256);
@@ -175,8 +224,8 @@ void Model::Load(GraphicsSystem& gs, const char* pFileName)
 		fscanf_s(pFile, "\n");
 
 		bone->index = i;
-
-		mBones.push_back(bone);
+		 
+		mBones.push_back(bone); // 67 bones
 	}
 
 	Bone* boneIter = mBones.front();
@@ -201,8 +250,11 @@ void Model::Load(GraphicsSystem& gs, const char* pFileName)
 			boneIter = mBones[i + 1];
 		}
 	}
+
+	// match bones to animations using indices
+
 	
-	//TODO: WEIGHTS
+	//WEIGHTS
 	for (u32 meshIndex = 0; meshIndex < mMeshes.size(); ++meshIndex)
 	{
 		u32 numVertexWeights = 0; 

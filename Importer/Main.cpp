@@ -23,7 +23,17 @@ Bone* BuildSkeleton(aiNode& aiNode, Model& model, Bone* parent)
 	if(iter == model.mBoneIndexMap.end())
 	{
 		bone = new Bone();
-		bone->name = aiNode.mName.C_Str();
+		if(aiNode.mName.length > 0)
+		{
+			bone->name = aiNode.mName.C_Str();
+		}
+		else
+		{
+			static u32 counter = 0;
+			char buffer[128];
+			sprintf_s(buffer, 128, "Unknown%d", counter++);
+			bone->name = buffer;
+		}
 		bone->index = model.mBones.size();
 
 		model.mBones.push_back(bone);
@@ -170,6 +180,7 @@ void ImportModel(const char* infileName, const char* outfileName)
 						boneIndex = model.mBones.size();
 
 						Bone* newBone = new Bone();
+						ASSERT(aiBone->mName.length > 0, "Bone %d doesn't have a name!", boneIndex);
 						newBone->name = aiBone->mName.C_Str();
 						newBone->index = boneIndex;
 						newBone->offsetTransform = *(Math::Matrix*)&aiBone->mOffsetMatrix;
@@ -215,6 +226,66 @@ void ImportModel(const char* infileName, const char* outfileName)
 	if(scene->HasAnimations())
 	{
 		model.mRoot = BuildSkeleton(*scene->mRootNode, model, nullptr);
+		fprintf_s(pFile, "NumAnimations: %d\n", scene->mNumAnimations);
+
+		for(u32 animIndex = 0; animIndex < scene->mNumAnimations; ++animIndex)
+		{
+			aiAnimation* aiAnimation = scene->mAnimations[animIndex];
+			AnimationClip* animClip = new AnimationClip();
+
+			animClip->mName = aiAnimation->mName.C_Str();
+			animClip->mDuration = (f32)aiAnimation->mDuration;
+			animClip->mTicksPerSecond = (f32)aiAnimation->mTicksPerSecond;
+			if(animClip->mTicksPerSecond == 0.0f)
+			{
+				animClip->mTicksPerSecond = 1.0f;
+			}
+
+			fprintf_s(pFile, "%s\n", animClip->mName.c_str());
+			fprintf_s(pFile, "%f\n", animClip->mDuration);
+			fprintf_s(pFile, "%f\n", animClip->mTicksPerSecond);
+
+			fprintf_s(pFile, "NumChannels: %d\n", aiAnimation->mNumChannels);
+			for(u32 boneAnimIndex = 0; boneAnimIndex < aiAnimation->mNumChannels; ++boneAnimIndex)
+			{
+				aiNodeAnim* aiNodeAnim = aiAnimation->mChannels[boneAnimIndex];
+				BoneAnimation* boneAnim = new BoneAnimation();
+
+				boneAnim->mBoneIndex = model.mBoneIndexMap.at(aiNodeAnim->mNodeName.C_Str());
+				fprintf_s(pFile, "%d\n", boneAnim->mBoneIndex);
+
+				ASSERT(aiNodeAnim->mNumPositionKeys == aiNodeAnim->mNumRotationKeys, "Mismatched key count.");
+				ASSERT(aiNodeAnim->mNumPositionKeys == aiNodeAnim->mNumScalingKeys, "Mismatched key count.");
+
+				fprintf_s(pFile, "NumPositionKeys: %d\n", aiNodeAnim->mNumPositionKeys);
+				for(u32 keyIndex = 0; keyIndex < aiNodeAnim->mNumPositionKeys; ++keyIndex)
+				{
+					const aiVectorKey& posKey = aiNodeAnim->mPositionKeys[keyIndex];
+					const aiQuatKey& rotKey = aiNodeAnim->mRotationKeys[keyIndex];
+					const aiVectorKey& scaleKey = aiNodeAnim->mScalingKeys[keyIndex];
+
+					ASSERT(posKey.mTime == rotKey.mTime, "Mismatched key time");
+					ASSERT(posKey.mTime == scaleKey.mTime, "Mismatched key time");
+
+					Keyframe* keyframe = new Keyframe();
+					keyframe->mTranslation = Math::Vector3(posKey.mValue.x, posKey.mValue.y, posKey.mValue.z);
+					keyframe->mRotation = Math::Quaternion(rotKey.mValue.x, rotKey.mValue.y, rotKey.mValue.z, rotKey.mValue.w);
+					keyframe->mScale = Math::Vector3(scaleKey.mValue.x, scaleKey.mValue.y, scaleKey.mValue.z);
+					keyframe->mTime = (f32)posKey.mTime;
+
+					fprintf_s(pFile, "%f %f %f\n", posKey.mValue.x, posKey.mValue.y, posKey.mValue.z);
+					fprintf_s(pFile, "%f %f %f %f\n", rotKey.mValue.x, rotKey.mValue.y, rotKey.mValue.z, rotKey.mValue.w);
+					fprintf_s(pFile, "%f %f %f\n", scaleKey.mValue.x, scaleKey.mValue.y, scaleKey.mValue.z);
+					fprintf_s(pFile, "%f\n", (f32)posKey.mTime);
+
+					boneAnim->mKeyframes.push_back(keyframe);
+				}
+
+				animClip->mBoneAnimations.push_back(boneAnim);
+			}
+
+			model.mAnimations.push_back(animClip);
+		}
 	}
 
 	fprintf_s(pFile, "NumBones: %d\n", model.mBones.size());
@@ -276,13 +347,6 @@ void ImportModel(const char* infileName, const char* outfileName)
 		}
 	}
 
-
-	
-// TODO
-
-// Save vertex bone weights
-// num, index, weight
-	// ex: 2 0 .2500 1 .7500
 
 	fclose(pFile);
 

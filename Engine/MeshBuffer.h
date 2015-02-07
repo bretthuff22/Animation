@@ -12,7 +12,7 @@
 //====================================================================================================
 
 class GraphicsSystem;
-class Mesh;
+#include "Mesh.h"
 
 //====================================================================================================
 // Class Declarations
@@ -24,11 +24,12 @@ public:
 	MeshBuffer();
 	~MeshBuffer();
 	
-	void Initialize(GraphicsSystem& gs, u32 vertexFormat, const void* vertexData, u32 numVertices);
-	void Initialize(GraphicsSystem& gs, u32 vertexFormat, const void* vertexData, u32 numVertices, const u16* indexData, u32 numIndices);
-	void Initialize(GraphicsSystem& gs, u32 vertexFormat, const Mesh& mesh);
+	void Initialize(GraphicsSystem& gs, u32 vertexFormat, const void* vertexData, u32 numVertices, bool dynamic = false);
+	void Initialize(GraphicsSystem& gs, u32 vertexFormat, const void* vertexData, u32 numVertices, const u16* indexData, u32 numIndices, bool dynamic = false);
+	void Initialize(GraphicsSystem& gs, u32 vertexFormat, const Mesh& mesh, bool dynamic = false);
 	void Terminate();
 
+	void UpdateBuffer(GraphicsSystem& gs, const Mesh::Vertex* vertices, u32 vertexCount);
 	void Render(GraphicsSystem& gs);
 
 	u32 GetVertexFormat() const			{ return mVertexFormat; }

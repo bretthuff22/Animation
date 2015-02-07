@@ -6,6 +6,7 @@
 //=============================================================================
 
 struct Bone;
+class AnimationClip;
 class GraphicsSystem;
 class Mesh; 
 class MeshBuffer;
@@ -34,6 +35,7 @@ public:
 	Bone* mRoot;
 	std::vector<Bone*> mBones;
 	std::map<std::string, u32> mBoneIndexMap;
+	std::vector<AnimationClip*> mAnimations;
 
 	std::vector<MeshBuffer*> mMeshBuffers;
 	std::vector<Texture*> mTextures;

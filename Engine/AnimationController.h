@@ -1,10 +1,10 @@
-#ifndef INCLUDED_ENGINE_ANIMATIONCLIP_H
-#define INCLUDED_ENGINE_ANIMATIONCLIP_H
+#ifndef INCLUDED_ENGINE_ANIMATIONCONTROLLER_H
+#define INCLUDED_ENGINE_ANIMATIONCONTROLLER_H
 
 //====================================================================================================
-// Filename:	AnimationClip.h
+// Filename:	AnimationController.h
 // Created by:	Peter Chan
-// Description:	Class for an animation clip.
+// Description:	Class for controlling animation playback.
 //====================================================================================================
 
 //====================================================================================================
@@ -18,26 +18,40 @@
 //====================================================================================================
 
 struct Bone;
-class BoneAnimation;
+class AnimationClip;
+class Model;
 
 //====================================================================================================
 // Class Declarations
 //====================================================================================================
 
-class AnimationClip
+class AnimationController
 {
 public:
-	AnimationClip();
-	~AnimationClip();
+	AnimationController();
+	~AnimationController();
 
-//private:
-	std::string mName;
+	void Initialize(Model & model);
 
-	std::vector<BoneAnimation*> mBoneAnimations;
+	void StartClip(AnimationClip& clip, bool loop);
 
-	f32 mDuration;
-	f32 mTicksPerSecond;
-	u32 mKeyframeCount;
+	const std::vector<Math::Matrix>& BoneTransforms()const { return mFinalTransforms; }
+
+private:
+	void GetBindPose(Bone* bone);
+	AnimationClip* mpCurrentAnimationClip;
+
+	std::vector<Math::Matrix> mToRootTransforms;
+	std::vector<Math::Matrix> mFinalTransforms;
+	Math::Matrix mInverseRootTransform;
+
+	Model* mpModel; 
+
+	f32 mCurrentTime;
+	u32 mCurrentFrame;
+
+	bool mIsPlaying;
+	bool mIsLooping;
 };
 
 #endif // #ifndef INCLUDED_ENGINE_ANIMATIONCLIP_H

@@ -34,6 +34,7 @@
 
 // Graphics headers
 #include "AnimationClip.h"
+#include "AnimationController.h"
 #include "Bone.h"
 #include "BoneAnimation.h"
 #include "Camera.h"
