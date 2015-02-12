@@ -127,6 +127,7 @@ void Model::Load(GraphicsSystem& gs, const char* pFileName)
 	u32 numAnimations = 0;
 	fscanf_s(pFile, "%s", buffer, 256);
 	fscanf_s(pFile, "%d\n", &numAnimations);
+	
 
 	for(u32 animIndex = 0; animIndex < numAnimations; ++animIndex)
 	{
@@ -138,8 +139,8 @@ void Model::Load(GraphicsSystem& gs, const char* pFileName)
 		fscanf_s(pFile, "%f\n", &animClip->mDuration);
 		fscanf_s(pFile, "%f\n", &animClip->mTicksPerSecond);
 
-		u32 numChannels = 0;
 		fscanf_s(pFile, "%s", buffer, 256);
+		u32 numChannels = 0;
 		fscanf_s(pFile, "%d\n", &numChannels);
 		
 		for(u32 boneAnimIndex = 0; boneAnimIndex < numChannels; ++boneAnimIndex)
@@ -252,7 +253,14 @@ void Model::Load(GraphicsSystem& gs, const char* pFileName)
 	}
 
 	// match bones to animations using indices
-
+	for (u32 animIndex = 0; animIndex < numAnimations; ++animIndex)
+	{
+		for (u32 boneAnimIndex = 0; boneAnimIndex < mAnimations[animIndex]->mBoneAnimations.size(); ++boneAnimIndex)
+		{
+			u16 boneIndex = mAnimations[animIndex]->mBoneAnimations[boneAnimIndex]->mBoneIndex;
+			mAnimations[animIndex]->mBoneAnimations[boneAnimIndex]->mBone = mBones[boneAnimIndex];
+		}
+	}
 	
 	//WEIGHTS
 	for (u32 meshIndex = 0; meshIndex < mMeshes.size(); ++meshIndex)
