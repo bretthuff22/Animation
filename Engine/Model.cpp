@@ -94,7 +94,7 @@ void Model::Load(GraphicsSystem& gs, const char* pFileName)
 		mMeshes.push_back(mesh);
 
 		MeshBuffer* meshBuffer = new MeshBuffer();
-		meshBuffer->Initialize(gs, Mesh::GetVertexFormat(), *mesh);
+		meshBuffer->Initialize(gs, Mesh::GetVertexFormat(), *mesh, true);
 		mMeshBuffers.push_back(meshBuffer);
 
 	}
@@ -221,6 +221,9 @@ void Model::Load(GraphicsSystem& gs, const char* pFileName)
 			&bone->offsetTransform._21, &bone->offsetTransform._22, &bone->offsetTransform._23, &bone->offsetTransform._24,
 			&bone->offsetTransform._31, &bone->offsetTransform._32, &bone->offsetTransform._33, &bone->offsetTransform._34,
 			&bone->offsetTransform._41, &bone->offsetTransform._42, &bone->offsetTransform._43, &bone->offsetTransform._44, 256);
+
+		bone->transform = Math::Transpose(bone->transform);
+		bone->offsetTransform = Math::Transpose(bone->offsetTransform);
 
 		fscanf_s(pFile, "\n");
 

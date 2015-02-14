@@ -30,6 +30,8 @@ public:
 	TestApp();
 	virtual ~TestApp();
 	
+	void DrawSkeleton();
+	
 private:
 	virtual void OnInitialize(u32 width, u32 height);
 	virtual void OnTerminate();
@@ -50,6 +52,7 @@ private:
 	std::vector<std::string> textureNames;
 
 	bool mKeyStates[256];
+	bool mDrawSkeleton;
 
 	s32 mMouseX;
 	s32 mMouseY;

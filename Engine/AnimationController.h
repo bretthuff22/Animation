@@ -35,6 +35,7 @@ public:
 
 	void StartClip(AnimationClip& clip, bool loop);
 
+	const std::vector<Math::Matrix>& ToRootTransforms()const { return mToRootTransforms; }
 	const std::vector<Math::Matrix>& BoneTransforms()const { return mFinalTransforms; }
 
 private:

@@ -73,6 +73,7 @@ public:
 	u32 GetIndexCount() const			{ return mNumIndices; }
 
 	VertexWeights& GetVertexWeights()	{return mVertexWeights;}
+	const VertexWeights& GetVertexWeights() const 	{return mVertexWeights;}
 
 private:
 	NONCOPYABLE(Mesh);

@@ -10,7 +10,18 @@
 namespace Math
 {
 
-	inline Matrix Matrix::Identity()
+inline Matrix Matrix::Zero()
+{
+	return Matrix
+	(
+		0.0f, 0.0f, 0.0f, 0.0f,
+		0.0f, 0.0f, 0.0f, 0.0f,
+		0.0f, 0.0f, 0.0f, 0.0f,
+		0.0f, 0.0f, 0.0f, 1.0f
+	);
+}
+
+inline Matrix Matrix::Identity()
 {
 	return Matrix();
 }

@@ -20,6 +20,7 @@
 TestApp::TestApp()
 	: mMouseX(-1)
 	, mMouseY(-1)
+	, mDrawSkeleton(false)
 {
 	memset(mKeyStates, 0, sizeof(mKeyStates));
 }
@@ -28,6 +29,35 @@ TestApp::TestApp()
 
 TestApp::~TestApp()
 {
+}
+
+void TestApp::DrawSkeleton()
+{
+	// Draw the skeleton
+		// Get all the toRoot transforms
+		// for each transform, extract 41, 42, 43 as position 
+		// draw AABB
+		const std::vector<Math::Matrix>& toRootTransforms = mAnimationController.ToRootTransforms();
+		// get vector of bones
+		const std::vector<Bone*>& bones = mModel.mBones;
+
+		Color RandColor((float)(rand()%100)/100, (float)(rand()%100)/100, (float)(rand()%100)/100, 1.0f );
+		for(u32 i = 0; i < toRootTransforms.size(); ++i)
+		{
+			const Math::Matrix& mat = toRootTransforms[i];
+			const Math::Vector3 center( mat._41, mat._42, mat._43 );
+			
+			//SimpleDraw::AddAABB(center, 0.01f, Color((float)(rand()%100)/100, (float)(rand()%100)/100, (float)(rand()%100)/100, 1.0f ));
+			SimpleDraw::AddAABB(center, 0.02f, RandColor);
+
+			for(u32 j = 0; j < bones[i]->children.size(); ++j)
+			{
+				const Math::Matrix& child = toRootTransforms[bones[i]->children[j]->index];
+				const Math::Vector3 childCenter( child._41, child._42, child._43 );
+				SimpleDraw::AddLine(center, childCenter, RandColor);
+			}
+			// draw bones to children
+		}
 }
 
 //----------------------------------------------------------------------------------------------------
@@ -54,6 +84,8 @@ void TestApp::OnInitialize(u32 width, u32 height)
 	mModel.Load(mGraphicsSystem, "../Data/Models/soldier1.txt");
 	
 	mAnimationController.Initialize(mModel);
+	//AnimationClip clip;
+	//mAnimationController.StartClip(clip, true);
 	mAnimationController.StartClip(*mModel.mAnimations[0], true);
 }
 
@@ -149,11 +181,66 @@ void TestApp::OnUpdate()
 		{
 			mCamera.Strafe(-kMoveSpeed * mTimer.GetElapsedTime());
 		}
+		else if (mKeyStates['K'])
+		{
+			mDrawSkeleton = !mDrawSkeleton;
+		}
 		
 		// Render scene
 		mGraphicsSystem.BeginRender(Color::Black());
 
 		mRenderer.SetCamera(mCamera);
+
+		if(mDrawSkeleton)
+		{
+			DrawSkeleton();
+		}
+
+		// for each mesh
+		for(u32 i = 0; i < mModel.mMeshes.size(); ++i)
+		{
+			const Mesh* mesh = mModel.mMeshes[i];
+			// copy vertexweights
+			const VertexWeights& vertexWeights = mesh->GetVertexWeights();
+
+			// if vw not empty
+			if(!vertexWeights.empty())
+			{
+				const std::vector<Math::Matrix>& boneTransforms = mAnimationController.BoneTransforms();
+				// copy vertices
+				const Mesh::Vertex* vertices = mesh->GetVertices();
+				// get vertex count
+				const u32 count = mesh->GetVertexCount();
+				// create new vertexarray of size vertex count
+				Mesh::Vertex* newVertices = new Mesh::Vertex[count];
+				// for each vertex
+				for(u32 j = 0; j < count; ++j)
+				{
+					// create zero transform
+					Math::Matrix transform;
+					transform = transform.Zero();
+
+					// copy boneweights from this vertexweight
+					const BoneWeights& boneWeights = vertexWeights[j];
+					// for each boneweight
+					for(u32 k = 0; k < boneWeights.size(); ++k)
+					{
+						const BoneWeight& boneWeight = boneWeights[k];
+						transform = transform + boneTransforms[i == 1 ? 22 : boneWeight.boneIndex] * boneWeight.weight;
+					}
+					// insert position into newVertices 
+					newVertices[j].position = Math::TransformCoord(vertices[j].position, transform);
+					// insert normal into newVertices 
+					newVertices[j].normal = Math::TransformNormal(vertices[j].normal, transform);
+					// insert texcoord into newVertices
+					newVertices[j].texcoord = vertices[j].texcoord;
+				}
+				// update mesh buffer at index with newVertices
+				mModel.mMeshBuffers[i]->UpdateBuffer(mGraphicsSystem, newVertices, count);
+				// safedelete newVertices
+				SafeDeleteArray(newVertices);
+			}
+		}
 
 		mModel.Render(mRenderer);
 
@@ -161,6 +248,8 @@ void TestApp::OnUpdate()
 
 		mGraphicsSystem.EndRender();
 	}
+
+	
 }
 
 void TestApp::LoadModel(const char* filename, Model& model)
@@ -235,7 +324,7 @@ void TestApp::LoadModel(const char* filename, Model& model)
 			SafeDeleteArray(indices);
 
 			MeshBuffer* meshBuffer = new MeshBuffer();
-			meshBuffer->Initialize(mGraphicsSystem, Mesh::GetVertexFormat(), *mesh);
+			meshBuffer->Initialize(mGraphicsSystem, Mesh::GetVertexFormat(), *mesh, true);
 			mModel.mMeshBuffers.push_back(meshBuffer);
 		}
 	}

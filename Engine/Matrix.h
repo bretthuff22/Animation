@@ -38,6 +38,7 @@ struct Matrix
 		, _41(_41), _42(_42), _43(_43), _44(_44)
 	{}
 	
+	static Matrix Zero();
 	static Matrix Identity();
 	static Matrix Translation(f32 x, f32 y, f32 z);
 	static Matrix Translation(const Vector3& v);
