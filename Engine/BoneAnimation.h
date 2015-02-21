@@ -29,9 +29,11 @@ public:
 	BoneAnimation();
 	~BoneAnimation();
 
+	Math::Matrix GetTransform(f32 time) const;
+	u32 FindKeyframeIndex(f32 time) const;
+
 //private:
 	std::vector<Keyframe*> mKeyframes;
-	Bone* mBone;
 	u32 mBoneIndex;
 };
 

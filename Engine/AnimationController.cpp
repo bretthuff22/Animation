@@ -61,6 +61,34 @@ void AnimationController::StartClip(AnimationClip& clip, bool loop)
 	GetBindPose(mpModel->mRoot);
 }
 
+void AnimationController::Update(f32 deltaTime)
+{
+	if(!mIsPlaying)
+	{
+		return;
+	}
+
+	mCurrentTime += deltaTime * mpCurrentAnimationClip->mTicksPerSecond;
+	if(mCurrentTime >= mpCurrentAnimationClip->mDuration)
+	{
+		if(mIsLooping)
+		{
+			mCurrentTime = 0.0f;
+		}
+		else
+		{
+			mIsPlaying = false;
+		}
+
+	}
+
+	
+	if(mIsPlaying)
+	{
+		GetPose(mCurrentTime, mpModel->mRoot);
+	}
+}
+
 void AnimationController::GetBindPose(Bone* bone)
 {
 	Math::Matrix toParentTransform = bone->transform;
@@ -80,5 +108,23 @@ void AnimationController::GetBindPose(Bone* bone)
 	for(Bone* child : bone->children)
 	{
 		GetBindPose(child);
+	}
+}
+
+void AnimationController::GetPose(f32 time, Bone* bone)
+{
+	Math::Matrix toParentTransform = mpCurrentAnimationClip->GetTransform(time, bone);;
+	Math::Matrix toRootTransform = toParentTransform;
+	if(bone->parent != nullptr)
+	{
+		toRootTransform = toParentTransform * mToRootTransforms[bone->parent->index];
+	}
+
+	mToRootTransforms[bone->index] = toRootTransform;
+	mFinalTransforms[bone->index] = bone->offsetTransform * toRootTransform * mInverseRootTransform;
+	
+	for(Bone* child : bone->children)
+	{
+		GetPose(time, child);
 	}
 }

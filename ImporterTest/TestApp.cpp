@@ -162,6 +162,9 @@ void TestApp::OnUpdate()
 		// Update our time
 		mTimer.Update();
 
+		// Update animation
+		mAnimationController.Update(mTimer.GetElapsedTime() * 1000.0f);
+
 		// Camera movement
 		const float kMoveSpeed = 10.0f;
 		const float kTurnSpeed = 5.0f;
@@ -222,16 +225,25 @@ void TestApp::OnUpdate()
 
 					// copy boneweights from this vertexweight
 					const BoneWeights& boneWeights = vertexWeights[j];
-					// for each boneweight
-					for(u32 k = 0; k < boneWeights.size(); ++k)
+
+					if(i == 1)
 					{
-						const BoneWeight& boneWeight = boneWeights[k];
-						transform = transform + boneTransforms[i == 1 ? 22 : boneWeight.boneIndex] * boneWeight.weight;
+						transform = boneTransforms[22];
+					}
+					else
+					{
+						// for each boneweight
+						for(u32 k = 0; k < boneWeights.size(); ++k)
+						{
+							const BoneWeight& boneWeight = boneWeights[k];
+						
+							transform = transform + boneTransforms[i == 1 ? 22 : boneWeight.boneIndex] * boneWeight.weight;
+						}
 					}
 					// insert position into newVertices 
 					newVertices[j].position = Math::TransformCoord(vertices[j].position, transform);
 					// insert normal into newVertices 
-					newVertices[j].normal = Math::TransformNormal(vertices[j].normal, transform);
+					newVertices[j].normal = Math::Normalize(Math::TransformNormal(vertices[j].normal, transform));
 					// insert texcoord into newVertices
 					newVertices[j].texcoord = vertices[j].texcoord;
 				}

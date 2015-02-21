@@ -123,12 +123,16 @@ void Model::Load(GraphicsSystem& gs, const char* pFileName)
 		mTextures.push_back(texture);
 	}
 
+	// Catch Number of bones
+	u32 numBones = 0;
+	fscanf_s(pFile, "%s", buffer, 256);
+	fscanf_s(pFile, "%d\n", &numBones, 256);
+
 	// ANIMATIONS
 	u32 numAnimations = 0;
 	fscanf_s(pFile, "%s", buffer, 256);
 	fscanf_s(pFile, "%d\n", &numAnimations);
 	
-
 	for(u32 animIndex = 0; animIndex < numAnimations; ++animIndex)
 	{
 		AnimationClip* animClip = new AnimationClip();
@@ -142,6 +146,7 @@ void Model::Load(GraphicsSystem& gs, const char* pFileName)
 		fscanf_s(pFile, "%s", buffer, 256);
 		u32 numChannels = 0;
 		fscanf_s(pFile, "%d\n", &numChannels);
+		animClip->mBoneAnimations.resize(numBones);
 		
 		for(u32 boneAnimIndex = 0; boneAnimIndex < numChannels; ++boneAnimIndex)
 		{
@@ -165,16 +170,14 @@ void Model::Load(GraphicsSystem& gs, const char* pFileName)
 				boneAnim->mKeyframes.push_back(keyframe);
 			}
 
-			animClip->mBoneAnimations.push_back(boneAnim);
+			animClip->mBoneAnimations[boneAnim->mBoneIndex] = boneAnim;
 		}
 
 		mAnimations.push_back(animClip);
 	}
 
 	// BONES
-	u32 numBones = 0;
-	fscanf_s(pFile, "%s", buffer, 256);
-	fscanf_s(pFile, "%d\n", &numBones, 256);
+	
 	//mBones.resize(numBones);
 
 	for (u32 i = 0; i < numBones; ++i)
@@ -252,16 +255,6 @@ void Model::Load(GraphicsSystem& gs, const char* pFileName)
 		if (i + 1 < numBones)
 		{
 			boneIter = mBones[i + 1];
-		}
-	}
-
-	// match bones to animations using indices
-	for (u32 animIndex = 0; animIndex < numAnimations; ++animIndex)
-	{
-		for (u32 boneAnimIndex = 0; boneAnimIndex < mAnimations[animIndex]->mBoneAnimations.size(); ++boneAnimIndex)
-		{
-			u16 boneIndex = mAnimations[animIndex]->mBoneAnimations[boneAnimIndex]->mBoneIndex;
-			mAnimations[animIndex]->mBoneAnimations[boneAnimIndex]->mBone = mBones[boneAnimIndex];
 		}
 	}
 	

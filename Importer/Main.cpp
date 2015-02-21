@@ -226,6 +226,8 @@ void ImportModel(const char* infileName, const char* outfileName)
 	if(scene->HasAnimations())
 	{
 		model.mRoot = BuildSkeleton(*scene->mRootNode, model, nullptr);
+		
+		fprintf_s(pFile, "NumBones: %d\n", model.mBones.size());
 		fprintf_s(pFile, "NumAnimations: %d\n", scene->mNumAnimations);
 
 		for(u32 animIndex = 0; animIndex < scene->mNumAnimations; ++animIndex)
@@ -288,7 +290,6 @@ void ImportModel(const char* infileName, const char* outfileName)
 		}
 	}
 
-	fprintf_s(pFile, "NumBones: %d\n", model.mBones.size());
 
 	for(u32 boneIndex = 0; boneIndex < model.mBones.size(); ++boneIndex)
 	{

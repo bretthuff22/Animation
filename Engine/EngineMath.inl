@@ -239,4 +239,16 @@ inline Vector3 Lerp(const Vector3& v0, const Vector3& v1, f32 t)
 	return v0 + ((v1 - v0) * t);
 }
 
+inline Matrix Lerp(const Matrix& m0, const Matrix& m1, f32 t)
+{
+	return m0 + ((m1 - m0) * t);
+}
+
+inline Quaternion Slerp(Quaternion q0, Quaternion q1, f32 t)
+{
+	Quaternion slerp;
+
+	return slerp;
+}
+
 } // namespace Math

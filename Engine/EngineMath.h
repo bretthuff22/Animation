@@ -81,6 +81,8 @@ Vector3 TransformCoord(const Vector3& v, const Matrix& m);
 Vector3 TransformNormal(const Vector3& v, const Matrix& m);
 
 Vector3 Lerp(const Vector3& v0, const Vector3& v1, f32 t);
+Matrix Lerp(const Matrix& m0, const Matrix& m1, f32 t);
+Quaternion Slerp(Quaternion q0, Quaternion q1, f32 t);
 
 } // namespace Math
 

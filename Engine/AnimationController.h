@@ -34,12 +34,14 @@ public:
 	void Initialize(Model & model);
 
 	void StartClip(AnimationClip& clip, bool loop);
+	void Update(f32 deltaTime);
 
 	const std::vector<Math::Matrix>& ToRootTransforms()const { return mToRootTransforms; }
 	const std::vector<Math::Matrix>& BoneTransforms()const { return mFinalTransforms; }
-
+	
 private:
 	void GetBindPose(Bone* bone);
+	void GetPose(f32 time, Bone* bone);
 	AnimationClip* mpCurrentAnimationClip;
 
 	std::vector<Math::Matrix> mToRootTransforms;

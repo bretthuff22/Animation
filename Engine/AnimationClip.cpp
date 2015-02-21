@@ -34,3 +34,16 @@ AnimationClip::~AnimationClip()
 	}
 	mBoneAnimations.clear();
 }
+
+Math::Matrix AnimationClip::GetTransform(f32 time, Bone* bone) const
+{
+	Math::Matrix transform;
+	BoneAnimation* boneAnim = mBoneAnimations[bone->index];
+
+	if(boneAnim != nullptr)
+	{
+		transform = boneAnim->GetTransform(time);
+	}
+
+	return transform;
+}
