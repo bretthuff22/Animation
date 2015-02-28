@@ -12,26 +12,22 @@
 //====================================================================================================
 // Local Definitions
 //====================================================================================================
-
 namespace
 {
-	f32 kTimeStep = 1.0f/60.0f;
-	u32 kNumParticles = 20;
-	f32 kParticleSpawnVariance = 0.1f;
-	f32 kParticleVelocityRange = 0.005f;
-}
-//====================================================================================================
-// Class Definitions
-//====================================================================================================
 
-namespace
-{
-	f32 lineSize = 50.0f;
+	f32 kTimeStep = 1.0f / 60.0f;
+	u32 kNumParticles = 10;
+	f32 kParticleSpawnVariance = 2.0f;
+	f32 kParticleVelocityRange = 10.0f;
+	f32 kRadius = 0.1f;
+	f32 kInverseMass = -1.0f;
+
+	f32 lineSize = 10.0f;
 	Color GridColor(0.5f, 0.5f, 0.5f, 0.0f);
 
 	void DrawGroundPlane()
 	{
-		for(f32 i = -1*lineSize; i <= lineSize; ++i)
+		for (f32 i = -1 * lineSize; i <= lineSize; ++i)
 		{
 			SimpleDraw::AddLine(i*lineSize, 0.0f, -lineSize*lineSize, i*lineSize, 0.0f, lineSize*lineSize, GridColor);
 			SimpleDraw::AddLine(-lineSize*lineSize, 0.0f, i*lineSize, lineSize*lineSize, 0.0f, i*lineSize, GridColor);
@@ -39,13 +35,15 @@ namespace
 	}
 
 }
-
+//====================================================================================================
+// Class Definitions
+//====================================================================================================
 
 
 TestApp::TestApp()
 	: mMouseX(-1)
 	, mMouseY(-1)
-	, mWorld( Math::Vector3(0.0f, -9.81f, 0.0f), 0.01f) 
+	, mWorld( Math::Vector3(0.0f, -9.81f, 0.0f), kTimeStep) 
 {
 	memset(mKeyStates, 0, sizeof(mKeyStates));
 }
@@ -121,17 +119,34 @@ bool TestApp::OnInput(const InputEvent& evt)
 
 					//mWorld.AddParticle(p);
 
-					Particle* p0 = new Particle(Random::GetF(-kParticleSpawnVariance, kParticleSpawnVariance), Random::GetF(0.0f, kParticleSpawnVariance), Random::GetF(-kParticleSpawnVariance, kParticleSpawnVariance), 1.0f, -0.1f);
-					Particle* p1 = new Particle(Random::GetF(-kParticleSpawnVariance, kParticleSpawnVariance), Random::GetF(0.0f, kParticleSpawnVariance), Random::GetF(-kParticleSpawnVariance, kParticleSpawnVariance), 1.0f, -0.1f);
-					
+					Particle* p0 = new Particle(Random::GetF(-kParticleSpawnVariance, kParticleSpawnVariance), Random::GetF(0.0f, kParticleSpawnVariance), Random::GetF(-kParticleSpawnVariance, kParticleSpawnVariance), kRadius, kInverseMass);
+					Particle* p1 = new Particle(Random::GetF(-kParticleSpawnVariance, kParticleSpawnVariance), Random::GetF(0.0f, kParticleSpawnVariance), Random::GetF(-kParticleSpawnVariance, kParticleSpawnVariance), kRadius, kInverseMass);
+					Particle* p2 = new Particle(Random::GetF(-kParticleSpawnVariance, kParticleSpawnVariance), Random::GetF(0.0f, kParticleSpawnVariance), Random::GetF(-kParticleSpawnVariance, kParticleSpawnVariance), kRadius, kInverseMass);
+					Particle* p3 = new Particle(Random::GetF(-kParticleSpawnVariance, kParticleSpawnVariance), Random::GetF(0.0f, kParticleSpawnVariance), Random::GetF(-kParticleSpawnVariance, kParticleSpawnVariance), kRadius, kInverseMass);
+
 					p0->SetVelocity(Random::GetF(-kParticleVelocityRange, kParticleVelocityRange)*kTimeStep, Random::GetF(0.0f, kParticleVelocityRange)*kTimeStep, Random::GetF(-kParticleVelocityRange, kParticleVelocityRange)*kTimeStep);
 					p1->SetVelocity(Random::GetF(-kParticleVelocityRange, kParticleVelocityRange)*kTimeStep, Random::GetF(0.0f, kParticleVelocityRange)*kTimeStep, Random::GetF(-kParticleVelocityRange, kParticleVelocityRange)*kTimeStep);
+					p2->SetVelocity(Random::GetF(-kParticleVelocityRange, kParticleVelocityRange)*kTimeStep, Random::GetF(0.0f, kParticleVelocityRange)*kTimeStep, Random::GetF(-kParticleVelocityRange, kParticleVelocityRange)*kTimeStep);
+					p3->SetVelocity(Random::GetF(-kParticleVelocityRange, kParticleVelocityRange)*kTimeStep, Random::GetF(0.0f, kParticleVelocityRange)*kTimeStep, Random::GetF(-kParticleVelocityRange, kParticleVelocityRange)*kTimeStep);
 
 					mWorld.AddParticle(p0);
 					mWorld.AddParticle(p1);
+					mWorld.AddParticle(p2);
+					mWorld.AddParticle(p3);
 
-					Spring* s = new Spring(p0, p1, 10.0f);
-					mWorld.AddConstraint(s);
+					Spring* s0 = new Spring(p0, p1, 1.0f);
+					Spring* s1 = new Spring(p1, p2, 1.0f);
+					Spring* s2 = new Spring(p2, p3, 1.0f);
+					Spring* s3 = new Spring(p3, p0, 1.0f);
+					Spring* s4 = new Spring(p0, p2, 1.0f);
+					Spring* s5 = new Spring(p1, p3, 1.0f);
+
+					mWorld.AddConstraint(s0);
+					mWorld.AddConstraint(s1);
+					mWorld.AddConstraint(s2);
+					mWorld.AddConstraint(s3);
+					mWorld.AddConstraint(s4);
+					mWorld.AddConstraint(s5);
 
 				}
 

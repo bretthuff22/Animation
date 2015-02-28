@@ -38,7 +38,7 @@ void Spring::Apply()
 	f32 dist = Math::Magnitude(delta);
 	f32 diff = (dist - mRestLength) / (dist* (mParticleA->invMass + mParticleB->invMass));
 	mParticleA->pos += delta * diff * mParticleA->invMass;
-	mParticleB->pos += delta * diff * mParticleB->invMass;
+	mParticleB->pos -= delta * diff * mParticleB->invMass;
 }
 void Spring::Render()
 {
