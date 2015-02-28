@@ -15,6 +15,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Importer", "Importer\Import
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Game", "Game\Game.vcxproj", "{1A47F04A-3F11-4210-89BA-82B83E5233F0}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PhysicsTest", "PhysicsTest\PhysicsTest.vcxproj", "{A3345832-B6BD-41C4-BF9B-A10A4E85E135}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -61,6 +63,12 @@ Global
 		{1A47F04A-3F11-4210-89BA-82B83E5233F0}.Release|Win32.ActiveCfg = Release|Win32
 		{1A47F04A-3F11-4210-89BA-82B83E5233F0}.Release|Win32.Build.0 = Release|Win32
 		{1A47F04A-3F11-4210-89BA-82B83E5233F0}.Release|x64.ActiveCfg = Release|Win32
+		{A3345832-B6BD-41C4-BF9B-A10A4E85E135}.Debug|Win32.ActiveCfg = Debug|Win32
+		{A3345832-B6BD-41C4-BF9B-A10A4E85E135}.Debug|Win32.Build.0 = Debug|Win32
+		{A3345832-B6BD-41C4-BF9B-A10A4E85E135}.Debug|x64.ActiveCfg = Debug|Win32
+		{A3345832-B6BD-41C4-BF9B-A10A4E85E135}.Release|Win32.ActiveCfg = Release|Win32
+		{A3345832-B6BD-41C4-BF9B-A10A4E85E135}.Release|Win32.Build.0 = Release|Win32
+		{A3345832-B6BD-41C4-BF9B-A10A4E85E135}.Release|x64.ActiveCfg = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

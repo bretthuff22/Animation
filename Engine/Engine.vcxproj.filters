@@ -25,6 +25,9 @@
     <Filter Include="Graphics\Shaders">
       <UniqueIdentifier>{d763a2f1-76e3-41b6-b328-f789a840b5c2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Physics">
+      <UniqueIdentifier>{d8b57517-2b3a-4ec0-8a9e-1ba599a85f2b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="InputSystem.cpp">
@@ -118,6 +121,15 @@
     </ClCompile>
     <ClCompile Include="AnimationController.cpp">
       <Filter>Graphics\Animations</Filter>
+    </ClCompile>
+    <ClCompile Include="Particle.cpp">
+      <Filter>Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="PhysicsWorld.cpp">
+      <Filter>Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="Constraints.cpp">
+      <Filter>Physics</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -244,6 +256,15 @@
     </ClInclude>
     <ClInclude Include="AnimationController.h">
       <Filter>Graphics\Animations</Filter>
+    </ClInclude>
+    <ClInclude Include="Particle.h">
+      <Filter>Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="PhysicsWorld.h">
+      <Filter>Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="Constraints.h">
+      <Filter>Physics</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -23,8 +23,6 @@
 #include "ModelComponent.h"
 #include "TransformComponent.h"
 
-// Service headers
-#include "RenderService.h"
 
 // GameObject headers
 #include "GameObject.h"
@@ -68,9 +66,17 @@
 #include "Timer.h"
 #include "Window.h"
 
+// Physics headers
+#include "Constraints.h"
+#include "Particle.h"
+#include "PhysicsWorld.h"
+
 // Resource headers
 #include "Resource.h"
 #include "ResourceManager.h"
 #include "TextureManager.h"
+
+// Service headers
+#include "RenderService.h"
 
 #endif // #ifndef INCLUDED_ENGINE_H
