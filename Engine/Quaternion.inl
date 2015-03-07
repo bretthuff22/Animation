@@ -21,4 +21,6 @@ namespace Math
 //	return Quaternion(1.0f, 0.0f, 0.0f);
 //}
 
+
+
 } // namespace Math

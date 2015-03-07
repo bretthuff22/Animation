@@ -70,7 +70,7 @@ public:
 	// Functions to add 3D lines
 	void AddLine(f32 x0, f32 y0, f32 z0, f32 x1, f32 y1, f32 z1, const Color& color);
 	void AddAABB(f32 minX, f32 minY, f32 minZ, f32 maxX, f32 maxY, f32 maxZ, const Color& color);
-	void AddSphere(f32 x, f32 y, f32 z, f32 radius, const Color& color);
+	void AddSphere(f32 x, f32 y, f32 z, f32 radius, const Color& color, u32 slices, u32 rings);
 
 	// Functions to add screen lines
 	void AddScreenLine(f32 x0, f32 y0, f32 x1, f32 y1, const Color& color);
@@ -259,26 +259,31 @@ void SimpleDrawImpl::AddAABB(f32 minX, f32 minY, f32 minZ, f32 maxX, f32 maxY, f
 
 //----------------------------------------------------------------------------------------------------
 
-void SimpleDrawImpl::AddSphere(f32 x, f32 y, f32 z, f32 radius, const Color& color)
+void SimpleDrawImpl::AddSphere(f32 x, f32 y, f32 z, f32 radius, const Color& color, u32 slices, u32 rings)
 {
 	ASSERT(mInitialized, "[SimpleDraw] Not initialized.");
+	
+	const u32 kSlices = Math::Max(3u, slices);
+	const u32 kRings = Math::Max(2u, rings);
+	const u32 kLines = (4 * kSlices * kRings) - (2 * kSlices);
 
 	// Check if we have enough space
-	if (mNumVertices3D + 112 <= mMaxVertices)
+	if (mNumVertices3D + kLines <= mMaxVertices)
 	{
 		// Add lines
-		const f32 kAngle = Math::kPi * 0.25f;
-		for (int j = 0; j < 8; ++j)
+		const f32 kTheta = Math::kPi / (f32)kRings;
+		const f32 kPhi = Math::kTwoPi / (f32)kSlices;
+		for (u32 j = 0; j < kSlices; ++j)
 		{
-			for (int i = 0; i < 4; ++i)
+			for (u32 i = 0; i < kRings; ++i)
 			{
-				const f32 a = i * kAngle;
-				const f32 b = a + kAngle;
+				const f32 a = i * kTheta;
+				const f32 b = a + kTheta;
 				const f32 ay = radius * cos(a);
 				const f32 by = radius * cos(b);
 
-				const f32 theta = j * kAngle;
-				const f32 phi = theta + kAngle;
+				const f32 theta = j * kPhi;
+				const f32 phi = theta + kPhi;
 
 				const f32 ar = sqrt(radius * radius - ay * ay);
 				const f32 br = sqrt(radius * radius - by * by);
@@ -298,7 +303,7 @@ void SimpleDrawImpl::AddSphere(f32 x, f32 y, f32 z, f32 radius, const Color& col
 				mpVertices3D[mNumVertices3D++] = SimpleVertex(x0, y0, z0, color);
 				mpVertices3D[mNumVertices3D++] = SimpleVertex(x1, y1, z1, color);
 
-				if (i < 3)
+				if (i < kRings - 1)
 				{
 					mpVertices3D[mNumVertices3D++] = SimpleVertex(x1, y1, z1, color);
 					mpVertices3D[mNumVertices3D++] = SimpleVertex(x2, y2, z2, color);
@@ -364,7 +369,7 @@ void SimpleDrawImpl::AddScreenCircle(f32 x, f32 y, f32 r, const Color& color)
 	{
 		// Add line
 		const f32 kAngle = Math::kPi / 8.0f;
-		for (int i = 0; i < 16; ++i)
+		for (u32 i = 0; i < 16; ++i)
 		{
 			const f32 alpha = i * kAngle;
 			const f32 beta = alpha + kAngle;
@@ -510,10 +515,10 @@ void AddAABB(f32 minX, f32 minY, f32 minZ, f32 maxX, f32 maxY, f32 maxZ, const C
 
 //----------------------------------------------------------------------------------------------------
 
-void AddSphere(const Math::Vector3& center, f32 radius, const Color& color)
+void AddSphere(const Math::Vector3& center, f32 radius, const Color& color, u32 slices, u32 rings)
 {
 	ASSERT(sSimpleDrawImpl != nullptr, "[SimpleDraw] Not initialized.");
-	sSimpleDrawImpl->AddSphere(center.x, center.y, center.z, radius, color);
+	sSimpleDrawImpl->AddSphere(center.x, center.y, center.z, radius, color, slices, rings);
 }
 
 //----------------------------------------------------------------------------------------------------

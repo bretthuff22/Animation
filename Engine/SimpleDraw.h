@@ -38,7 +38,7 @@ void AddLine(f32 x0, f32 y0, f32 z0, f32 x1, f32 y1, f32 z1, const Color& color)
 void AddAABB(const Math::Vector3& min, const Math::Vector3& max, const Color& color);
 void AddAABB(const Math::Vector3& center, f32 extend, const Color& color);
 void AddAABB(f32 minX, f32 minY, f32 minZ, f32 maxX, f32 maxY, f32 maxZ, const Color& color);
-void AddSphere(const Math::Vector3& center, f32 radius, const Color& color);
+void AddSphere(const Math::Vector3& center, f32 radius, const Color& color, u32 slices = 8, u32 rings = 4);
 
 // Functions for screen space rendering
 void AddScreenLine(const Math::Vector2& v0, const Math::Vector2& v1, const Color& color);

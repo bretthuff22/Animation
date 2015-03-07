@@ -266,6 +266,9 @@
     <ClInclude Include="Constraints.h">
       <Filter>Physics</Filter>
     </ClInclude>
+    <ClInclude Include="OBB.h">
+      <Filter>Math</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Vector3.inl">

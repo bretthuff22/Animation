@@ -13,30 +13,70 @@
 
 #include "Constraints.h"
 
+namespace
+{
+	void DrawOBB(Math::OBB& obb)
+	{
+		Math::Matrix matTrans = Math::Matrix::Translation(obb.center);
+		Math::Matrix matRot = Math::Matrix::RotationQuaternion(obb.rot);
+		Math::Matrix toWorld = matRot * matTrans;
+
+		Math::Vector3 p0(- obb.extend.x, - obb.extend.y, - obb.extend.z);
+		Math::Vector3 p1(- obb.extend.x, - obb.extend.y, + obb.extend.z);
+		Math::Vector3 p2(- obb.extend.x, + obb.extend.y, + obb.extend.z);
+		Math::Vector3 p3(- obb.extend.x, + obb.extend.y, - obb.extend.z);
+		Math::Vector3 p4(+ obb.extend.x, - obb.extend.y, - obb.extend.z);
+		Math::Vector3 p5(+ obb.extend.x, - obb.extend.y, + obb.extend.z);
+		Math::Vector3 p6(+ obb.extend.x, + obb.extend.y, + obb.extend.z);
+		Math::Vector3 p7(+ obb.extend.x, + obb.extend.y, - obb.extend.z);
+
+		p0 = Math::TransformCoord(p0, toWorld);
+		p1 = Math::TransformCoord(p1, toWorld);
+		p2 = Math::TransformCoord(p2, toWorld);
+		p3 = Math::TransformCoord(p3, toWorld);
+		p4 = Math::TransformCoord(p4, toWorld);
+		p5 = Math::TransformCoord(p5, toWorld);
+		p6 = Math::TransformCoord(p6, toWorld);
+		p7 = Math::TransformCoord(p7, toWorld);
+
+		SimpleDraw::AddLine(p0, p1, Color::Magenta());
+		SimpleDraw::AddLine(p1, p2, Color::Magenta());
+		SimpleDraw::AddLine(p2, p3, Color::Magenta());
+		SimpleDraw::AddLine(p3, p0, Color::Magenta());
+		SimpleDraw::AddLine(p4, p5, Color::Magenta());
+		SimpleDraw::AddLine(p5, p6, Color::Magenta());
+		SimpleDraw::AddLine(p6, p7, Color::Magenta());
+		SimpleDraw::AddLine(p7, p4, Color::Magenta());
+		SimpleDraw::AddLine(p0, p4, Color::Magenta());
+		SimpleDraw::AddLine(p1, p5, Color::Magenta());
+		SimpleDraw::AddLine(p2, p6, Color::Magenta());
+		SimpleDraw::AddLine(p3, p7, Color::Magenta());
+
+	}
+}
+
 //====================================================================================================
 // Class Definitions
 //====================================================================================================
 
-PhysicsWorld::PhysicsWorld(const Math::Vector3& gravity, f32 timeStep)
-	: mGravity(gravity)
-	, mTimer(0.0f)
-	, mTimeStep(timeStep)
+PhysicsWorld::PhysicsWorld()
+	: mTimer(0.0f)
 {
 
 }
 PhysicsWorld::~PhysicsWorld()
 {
-	Purge();
+	ClearAll();
 }
 
 void PhysicsWorld::StepSimulation(f32 deltaTime)
 {
 	mTimer += deltaTime;
-	if(mTimer >= mTimeStep)
+	if(mTimer >= mSettings.timeStep)
 	{
-		mTimer -= mTimeStep;
+		mTimer -= mSettings.timeStep;
 		AccumulateForces();
-		Integrate(mTimeStep);
+		Integrate();
 		SatisfyConstraints();
 	}
 }
@@ -53,7 +93,12 @@ void PhysicsWorld::AddConstraint(Constraint* c)
 	mConstraints.push_back(c);
 }
 
-void PhysicsWorld::Purge()
+void PhysicsWorld::AddOBB(Math::OBB& obb)
+{
+	mOBBs.push_back(obb);
+}
+
+void PhysicsWorld::ClearDynamic()
 {
 	const u32 kNumParticles = mParticles.size();
 	for(u32 i = 0; i < kNumParticles; ++i)
@@ -70,6 +115,14 @@ void PhysicsWorld::Purge()
 	mConstraints.clear();
 }
 
+void PhysicsWorld::ClearAll()
+{
+	ClearDynamic();
+
+	mOBBs.clear();
+
+}
+
 void PhysicsWorld::Render()
 {
 	const u32 kNumParticles = mParticles.size();
@@ -83,6 +136,12 @@ void PhysicsWorld::Render()
 	{
 		mConstraints[i]->Render();
 	}
+
+	const u32 kNumOBBs = mOBBs.size();
+	for(u32 i = 0; i < kNumOBBs; ++i)
+	{
+		DrawOBB(mOBBs[i]);
+	}
 }
 
 void PhysicsWorld::AccumulateForces()
@@ -91,30 +150,53 @@ void PhysicsWorld::AccumulateForces()
 	for(u32 i = 0; i < kNumParticles; ++i)
 	{
 		Particle* p = mParticles[i];
-		p->accel = mGravity;
+		p->accel = mSettings.gravity;
 	}
 }
 	
-void PhysicsWorld::Integrate(f32 deltaTime)
+void PhysicsWorld::Integrate()
 {
+	const f32 kGamma = 1.0f - mSettings.drag;
+	const f32 kTimeStepSqr = Math::Sqr(mSettings.timeStep);
 	const u32 kNumParticles = mParticles.size();
 	for(u32 i = 0; i < kNumParticles; ++i)
 	{
 		Particle* p = mParticles[i];
 		Math::Vector3 temp(p->pos);
-		p->pos = (p->pos * 2.0f) - p->posOld + (p->accel * deltaTime * deltaTime);
+		p->pos = p->pos + ((p->pos - p->posOld) * kGamma) + (p->accel * kTimeStepSqr);
 		p->posOld = temp;
 	}
 }
 
 void PhysicsWorld::SatisfyConstraints()
 {
+	const u32 kNumParticles = mParticles.size();
 	const u32 kNumConstraints = mConstraints.size();
-	for(u32 n = 0; n < 5; ++n)
+	const u32 kNumOBBs = mOBBs.size();
+	for(u32 n = 0; n < 1; ++n)
 	{	
 		for(u32 i = 0; i < kNumConstraints; ++i)
 		{
 			mConstraints[i]->Apply();
+		}
+
+		for(u32 i = 0; i < kNumParticles; ++i)
+		{
+			Particle* p = mParticles[i];
+
+			// intersection 
+				// transfer particle to local obb space
+				// if particle in obb, (point box intersection test)
+					// do (ray intersection test) to update particle by reflecting the normal of the side using the exact contact point
+			//for(u32 j = 0; j < kNumOBBs; ++j)
+			{
+				//if(p->pos.y < mOBBs[i].center.y - mObb)
+				{
+					p->pos.y *= -1.0f;
+					p->posOld.y *= -1.0f;
+				}
+			}
+			
 		}
 	}
 }

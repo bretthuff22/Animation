@@ -42,7 +42,7 @@ Particle::Particle(f32 x, f32 y, f32 z, f32 rad, f32 inverseMass)
 	
 void Particle::Render()
 {
-	SimpleDraw::AddSphere(pos, radius, Color::Blue());
+	SimpleDraw::AddSphere(pos, radius, Color::Blue(), 4, 2);
 }
 
 void Particle::SetPosition(f32 x, f32 y, f32 z)
