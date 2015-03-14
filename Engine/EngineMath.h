@@ -95,7 +95,7 @@ bool Intersect(const Ray& ray, const OBB& obb, f32& distEntry, f32& distExit);
 bool Intersect(const Vector3& point, const AABB& aabb);
 bool Intersect(const Vector3& point, const OBB& obb);
 
-bool GetContactPoint(const Ray& ray, const OBB& obb, Vector3& point, Vector3& contactPoint);
+bool GetContactPoint(const Ray& ray, const OBB& obb, Vector3& point, Vector3& normal);
 
 
 Matrix Convert(const Quaternion& q);

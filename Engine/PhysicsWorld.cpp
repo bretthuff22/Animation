@@ -190,16 +190,21 @@ void PhysicsWorld::SatisfyConstraints()
 					// do (ray intersection test) to update particle by reflecting the normal of the side using the exact contact point
 			for(u32 j = 0; j < kNumOBBs; ++j)
 			{
-				//if (Math::Intersect(mOBBs[j], p->pos))
+				if (Math::Intersect(p->pos, mOBBs[j]))
 				{
-					SimpleMath::Vector3 dir(p->pos.x - p->posOld.x, p->pos.y - p->posOld.y, p->pos.z- p->posOld.z);
-					dir.Normalize();
-					SimpleMath::Ray ray(SimpleMath::Vector3(p->pos.x, p->pos.y, p->pos.z), dir);
-					//if(Math::Intersect(mOBBs[j], ray))
-					{
-						p->pos.y *= -1.0f;
-						p->posOld.y *= -1.0f;
-					}
+					Math::Vector3 vel(p->pos - p->posOld);
+					Math::Vector3 dir = Math::Normalize(vel);
+
+					Math::Ray ray(p->posOld, dir);
+					Math::Vector3 point, normal;
+					Math::GetContactPoint(ray, mOBBs[j], point, normal);
+
+					Math::Vector3 velN = normal * Math::Dot(normal, vel);
+					Math::Vector3 velT = vel - velN;
+
+					p->pos = point + (normal*0.005f);
+					p->posOld = p->pos - (velT - velN*p->bounce);
+
 				}
 			}
 			

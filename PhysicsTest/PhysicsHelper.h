@@ -9,6 +9,7 @@ namespace PhysicsHelper
 	const u32 kNumParticles = 10;
 	const f32 kParticleSpawnVariance = 2.0f;
 	const f32 kParticleVelocityRange = 10.0f;
+	const f32 kParticleHeight = 7.0f;
 	const f32 kRadius = 0.1f;
 	const f32 kInverseMass = -1.0f;
 	const Math::Vector3 kGravity = Math::Vector3(0.0f, -9.81f, 0.0f);

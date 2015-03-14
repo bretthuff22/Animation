@@ -13,10 +13,10 @@ void PhysicsHelper::DrawGroundPlane()
 
 void PhysicsHelper::CreateTetrahedron(PhysicsWorld& world)
 {
-	Particle* p0 = new Particle(Random::GetF(-kParticleSpawnVariance, kParticleSpawnVariance), Random::GetF(1.0f, kParticleSpawnVariance + 1.0f), Random::GetF(-kParticleSpawnVariance, kParticleSpawnVariance), kRadius, kInverseMass);
-	Particle* p1 = new Particle(Random::GetF(-kParticleSpawnVariance, kParticleSpawnVariance), Random::GetF(1.0f, kParticleSpawnVariance + 1.0f), Random::GetF(-kParticleSpawnVariance, kParticleSpawnVariance), kRadius, kInverseMass);
-	Particle* p2 = new Particle(Random::GetF(-kParticleSpawnVariance, kParticleSpawnVariance), Random::GetF(1.0f, kParticleSpawnVariance + 1.0f), Random::GetF(-kParticleSpawnVariance, kParticleSpawnVariance), kRadius, kInverseMass);
-	Particle* p3 = new Particle(Random::GetF(-kParticleSpawnVariance, kParticleSpawnVariance), Random::GetF(1.0f, kParticleSpawnVariance + 1.0f), Random::GetF(-kParticleSpawnVariance, kParticleSpawnVariance), kRadius, kInverseMass);
+	Particle* p0 = new Particle(Random::GetF(-kParticleSpawnVariance, kParticleSpawnVariance), Random::GetF(kParticleHeight, kParticleSpawnVariance + kParticleHeight), Random::GetF(-kParticleSpawnVariance, kParticleSpawnVariance), kRadius, kInverseMass);
+	Particle* p1 = new Particle(Random::GetF(-kParticleSpawnVariance, kParticleSpawnVariance), Random::GetF(kParticleHeight, kParticleSpawnVariance + kParticleHeight), Random::GetF(-kParticleSpawnVariance, kParticleSpawnVariance), kRadius, kInverseMass);
+	Particle* p2 = new Particle(Random::GetF(-kParticleSpawnVariance, kParticleSpawnVariance), Random::GetF(kParticleHeight, kParticleSpawnVariance + kParticleHeight), Random::GetF(-kParticleSpawnVariance, kParticleSpawnVariance), kRadius, kInverseMass);
+	Particle* p3 = new Particle(Random::GetF(-kParticleSpawnVariance, kParticleSpawnVariance), Random::GetF(kParticleHeight, kParticleSpawnVariance + kParticleHeight), Random::GetF(-kParticleSpawnVariance, kParticleSpawnVariance), kRadius, kInverseMass);
 
 	p0->SetVelocity(Random::GetF(-kParticleVelocityRange, kParticleVelocityRange)*kTimeStep, Random::GetF(0.0f, kParticleVelocityRange)*kTimeStep, Random::GetF(-kParticleVelocityRange, kParticleVelocityRange)*kTimeStep);
 	p1->SetVelocity(Random::GetF(-kParticleVelocityRange, kParticleVelocityRange)*kTimeStep, Random::GetF(0.0f, kParticleVelocityRange)*kTimeStep, Random::GetF(-kParticleVelocityRange, kParticleVelocityRange)*kTimeStep);
@@ -45,14 +45,14 @@ void PhysicsHelper::CreateTetrahedron(PhysicsWorld& world)
 
 void PhysicsHelper::CreateCube(PhysicsWorld& world)
 {
-	Particle* p0 = new Particle(Random::GetF(-kParticleSpawnVariance, kParticleSpawnVariance), Random::GetF(1.0f, kParticleSpawnVariance + 1.0f), Random::GetF(-kParticleSpawnVariance, kParticleSpawnVariance), kRadius, kInverseMass);
-	Particle* p1 = new Particle(Random::GetF(-kParticleSpawnVariance, kParticleSpawnVariance), Random::GetF(1.0f, kParticleSpawnVariance + 1.0f), Random::GetF(-kParticleSpawnVariance, kParticleSpawnVariance), kRadius, kInverseMass);
-	Particle* p2 = new Particle(Random::GetF(-kParticleSpawnVariance, kParticleSpawnVariance), Random::GetF(1.0f, kParticleSpawnVariance + 1.0f), Random::GetF(-kParticleSpawnVariance, kParticleSpawnVariance), kRadius, kInverseMass);
-	Particle* p3 = new Particle(Random::GetF(-kParticleSpawnVariance, kParticleSpawnVariance), Random::GetF(1.0f, kParticleSpawnVariance + 1.0f), Random::GetF(-kParticleSpawnVariance, kParticleSpawnVariance), kRadius, kInverseMass);
-	Particle* p4 = new Particle(Random::GetF(-kParticleSpawnVariance, kParticleSpawnVariance), Random::GetF(1.0f, kParticleSpawnVariance + 1.0f), Random::GetF(-kParticleSpawnVariance, kParticleSpawnVariance), kRadius, kInverseMass);
-	Particle* p5 = new Particle(Random::GetF(-kParticleSpawnVariance, kParticleSpawnVariance), Random::GetF(1.0f, kParticleSpawnVariance + 1.0f), Random::GetF(-kParticleSpawnVariance, kParticleSpawnVariance), kRadius, kInverseMass);
-	Particle* p6 = new Particle(Random::GetF(-kParticleSpawnVariance, kParticleSpawnVariance), Random::GetF(1.0f, kParticleSpawnVariance + 1.0f), Random::GetF(-kParticleSpawnVariance, kParticleSpawnVariance), kRadius, kInverseMass);
-	Particle* p7 = new Particle(Random::GetF(-kParticleSpawnVariance, kParticleSpawnVariance), Random::GetF(1.0f, kParticleSpawnVariance + 1.0f), Random::GetF(-kParticleSpawnVariance, kParticleSpawnVariance), kRadius, kInverseMass);
+	Particle* p0 = new Particle(Random::GetF(-kParticleSpawnVariance, kParticleSpawnVariance), Random::GetF(kParticleHeight, kParticleSpawnVariance + kParticleHeight), Random::GetF(-kParticleSpawnVariance, kParticleSpawnVariance), kRadius, kInverseMass);
+	Particle* p1 = new Particle(Random::GetF(-kParticleSpawnVariance, kParticleSpawnVariance), Random::GetF(kParticleHeight, kParticleSpawnVariance + kParticleHeight), Random::GetF(-kParticleSpawnVariance, kParticleSpawnVariance), kRadius, kInverseMass);
+	Particle* p2 = new Particle(Random::GetF(-kParticleSpawnVariance, kParticleSpawnVariance), Random::GetF(kParticleHeight, kParticleSpawnVariance + kParticleHeight), Random::GetF(-kParticleSpawnVariance, kParticleSpawnVariance), kRadius, kInverseMass);
+	Particle* p3 = new Particle(Random::GetF(-kParticleSpawnVariance, kParticleSpawnVariance), Random::GetF(kParticleHeight, kParticleSpawnVariance + kParticleHeight), Random::GetF(-kParticleSpawnVariance, kParticleSpawnVariance), kRadius, kInverseMass);
+	Particle* p4 = new Particle(Random::GetF(-kParticleSpawnVariance, kParticleSpawnVariance), Random::GetF(kParticleHeight, kParticleSpawnVariance + kParticleHeight), Random::GetF(-kParticleSpawnVariance, kParticleSpawnVariance), kRadius, kInverseMass);
+	Particle* p5 = new Particle(Random::GetF(-kParticleSpawnVariance, kParticleSpawnVariance), Random::GetF(kParticleHeight, kParticleSpawnVariance + kParticleHeight), Random::GetF(-kParticleSpawnVariance, kParticleSpawnVariance), kRadius, kInverseMass);
+	Particle* p6 = new Particle(Random::GetF(-kParticleSpawnVariance, kParticleSpawnVariance), Random::GetF(kParticleHeight, kParticleSpawnVariance + kParticleHeight), Random::GetF(-kParticleSpawnVariance, kParticleSpawnVariance), kRadius, kInverseMass);
+	Particle* p7 = new Particle(Random::GetF(-kParticleSpawnVariance, kParticleSpawnVariance), Random::GetF(kParticleHeight, kParticleSpawnVariance + kParticleHeight), Random::GetF(-kParticleSpawnVariance, kParticleSpawnVariance), kRadius, kInverseMass);
 
 	p0->SetVelocity(Random::GetF(-kParticleVelocityRange, kParticleVelocityRange)*kTimeStep, Random::GetF(0.0f, kParticleVelocityRange)*kTimeStep, Random::GetF(-kParticleVelocityRange, kParticleVelocityRange)*kTimeStep);
 	p1->SetVelocity(Random::GetF(-kParticleVelocityRange, kParticleVelocityRange)*kTimeStep, Random::GetF(0.0f, kParticleVelocityRange)*kTimeStep, Random::GetF(-kParticleVelocityRange, kParticleVelocityRange)*kTimeStep);
@@ -135,7 +135,7 @@ void PhysicsHelper::CreateCloth(PhysicsWorld& world)
 
 	for(u32 i = 0; i < kClothWidth*kClothHeight; ++i)
 	{
-		p[i] = Particle(Random::GetF(-kParticleSpawnVariance, kParticleSpawnVariance), Random::GetF(1.0f, kParticleSpawnVariance + 1.0f), Random::GetF(-kParticleSpawnVariance, kParticleSpawnVariance), kRadius, kInverseMass);
+		p[i] = Particle(Random::GetF(-kParticleSpawnVariance, kParticleSpawnVariance), Random::GetF(10.0f, kParticleSpawnVariance + 1.0f), Random::GetF(-kParticleSpawnVariance, kParticleSpawnVariance), kRadius, kInverseMass);
 		p[i].SetVelocity(Random::GetF(-kParticleVelocityRange, kParticleVelocityRange)*kTimeStep, Random::GetF(0.0f, kParticleVelocityRange)*kTimeStep, Random::GetF(-kParticleVelocityRange, kParticleVelocityRange)*kTimeStep);
 		world.AddParticle(&p[i]);
 	}
