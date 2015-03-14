@@ -208,13 +208,15 @@ bool Intersect(const Ray& ray, const OBB& obb, f32& distEntry, f32& distExit)
 
 bool Intersect(const Vector3& point, const AABB& aabb)
 {
-	// TODO: FIX THIS
-	Vector3 p(point - aabb.center);
-	Vector3 e(aabb.extend);
+	Vector3 boxMin = aabb.center - aabb.extend;
+	Vector3 boxMax = aabb.center + aabb.extend;
 
-	return !(p.x < -e.x || p.x > e.x ||
-	   p.y < -e.y || p.y > e.y ||
-	   p.z < -e.z || p.z > e.z);
+//	Vector3 p(point - aabb.center);
+//	Vector3 e(aabb.extend);
+
+	return (point.x > boxMin.x && point.x < boxMax.x &&
+			point.y > boxMin.y && point.y < boxMax.y &&
+			point.z > boxMin.z && point.z < boxMax.z );
 }
 
 bool Intersect(const Vector3& point, const OBB& obb)
@@ -225,7 +227,7 @@ bool Intersect(const Vector3& point, const OBB& obb)
 	Matrix matWorld = matRot * matTrans;
 	Matrix matWorldInv = Inverse(matWorld);
 
-	Vector3 localPoint = TransformCoord(obb.center, matWorldInv);
+	Vector3 localPoint = TransformCoord(point, matWorldInv);
 	AABB localAABB(Vector3::Zero(), obb.extend);
 
 	return Intersect(localPoint, localAABB);
