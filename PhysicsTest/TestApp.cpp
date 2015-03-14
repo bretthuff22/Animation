@@ -56,6 +56,10 @@ void TestApp::OnInitialize(u32 width, u32 height)
 
 	Math::OBB obb(0,0,0,PhysicsHelper::lineWidth*PhysicsHelper::lineWidth, 1.0f, PhysicsHelper::lineHeight*PhysicsHelper::lineHeight);
 	mWorld.AddOBB(obb);
+	Math::OBB obb1(-2, 3, 0, 2.5f, 0.1f, 2.5f, 0,0,1, -0.4f);
+	mWorld.AddOBB(obb1);
+	Math::OBB obb2(2, 5, 0, 2.5f, 0.1f, 2.5f, 0,0,1, 0.4f);
+	mWorld.AddOBB(obb2);
 
 }
 

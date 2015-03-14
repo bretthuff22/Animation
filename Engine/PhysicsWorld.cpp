@@ -188,12 +188,18 @@ void PhysicsWorld::SatisfyConstraints()
 				// transfer particle to local obb space
 				// if particle in obb, (point box intersection test)
 					// do (ray intersection test) to update particle by reflecting the normal of the side using the exact contact point
-			//for(u32 j = 0; j < kNumOBBs; ++j)
+			for(u32 j = 0; j < kNumOBBs; ++j)
 			{
-				//if(p->pos.y < mOBBs[i].center.y - mObb)
+				//if (Math::Intersect(mOBBs[j], p->pos))
 				{
-					p->pos.y *= -1.0f;
-					p->posOld.y *= -1.0f;
+					SimpleMath::Vector3 dir(p->pos.x - p->posOld.x, p->pos.y - p->posOld.y, p->pos.z- p->posOld.z);
+					dir.Normalize();
+					SimpleMath::Ray ray(SimpleMath::Vector3(p->pos.x, p->pos.y, p->pos.z), dir);
+					//if(Math::Intersect(mOBBs[j], ray))
+					{
+						p->pos.y *= -1.0f;
+						p->posOld.y *= -1.0f;
+					}
 				}
 			}
 			

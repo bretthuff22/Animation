@@ -55,6 +55,7 @@
     <ClCompile Include="Window.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AABB.h" />
     <ClInclude Include="AnimationClip.h" />
     <ClInclude Include="AnimationController.h" />
     <ClInclude Include="Application.h" />
@@ -90,10 +91,12 @@
     <ClInclude Include="Particle.h" />
     <ClInclude Include="PhysicsWorld.h" />
     <ClInclude Include="PixelShader.h" />
+    <ClInclude Include="Plane.h" />
     <ClInclude Include="Precompiled.h" />
     <ClInclude Include="Quaternion.h" />
     <ClInclude Include="Random.h" />
     <ClInclude Include="MeshBuffer.h" />
+    <ClInclude Include="Ray.h" />
     <ClInclude Include="RenderService.h" />
     <ClInclude Include="Repository.h" />
     <ClInclude Include="RepositoryTypes.h" />

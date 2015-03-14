@@ -251,4 +251,143 @@ inline Quaternion Slerp(Quaternion q0, Quaternion q1, f32 t)
 	return slerp;
 }
 
+//inline bool Intersect(const OBB& obb, const Vector3& pos)
+//{
+//	// translate to obb space
+//
+//	Math::Matrix matOBBInv = Inverse(Convert(obb.rot)); 
+//
+//	Math::Vector3 newPos = TransformCoord(pos, matOBBInv);
+//
+//	Math::Vector3 e(obb.extend);
+//
+//	if(newPos.x < -e.x || newPos.x > e.x ||
+//	   newPos.y < -e.y || newPos.y > e.y ||
+//	   newPos.z < -e.z || newPos.z > e.z)
+//	{
+//		return false;
+//	}
+//
+//	return true;
+//}
+//
+//inline bool Intersect(const OBB& obb, const Ray& ray)
+//{
+	// translate to obb space
+
+	//Math::Matrix matOBBInv = Inverse(Convert(obb.rot));
+
+	//Math::Vector3 rayPos(ray.position.x, ray.position.y, ray.position.z);
+	//Math::Vector3 rayDir(ray.direction.x, ray.direction.y, ray.direction.z);
+
+	//Math::Vector3 o = TransformCoord(rayPos, matOBBInv);
+	//Math::Vector3 d = TransformNormal(rayDir, matOBBInv);
+	//Math::Vector3 i;
+	//if(rayDir.x != 0 && rayDir.y != 0 && rayDir.z != 0)
+	//{
+	//	i = Vector3(1/rayDir.x, 1/rayDir.y, 1/rayDir.z);
+	//}
+	//Math::Vector3 e(obb.extend);
+	//
+	//f32 tmin = -F32_MAX;
+	//f32 tmax = F32_MAX;
+
+	//f32 t0x = ( - e.x - o.x ) * i.x;
+	//f32 t1x = (   e.x - o.x ) * i.x;
+	//tmin = Max(tmin, Min(t0x, t1x));
+	//tmax = Min(tmax, Max(t0x, t1x));
+
+	//f32 t0y = ( - e.y - o.y ) * i.y;
+	//f32 t1y = (   e.y - o.y ) * i.y;
+	//tmin = Max(tmin, Min(t0y, t1y));
+	//tmax = Min(tmax, Max(t0y, t1y));
+
+	//f32 t0z = ( - e.z - o.z ) * i.z;
+	//f32 t1z = (   e.z - o.z ) * i.z;
+	//tmin = Max(tmin, Min(t0z, t1z));
+	//tmax = Min(tmax, Max(t0z, t1z));
+
+	//return tmax >= tmin;
+//}
+
+inline Matrix Convert(const Quaternion& q)
+{
+	Matrix ret;
+
+	ret._11 = 1.0f - (2 * q.y*q.y) - (2*q.z*q.z);
+	ret._21 = (2 * q.x*q.y) - (2 *q.z*q.w); 
+	ret._31 = (2 * q.x*q.z) - (2 *q.y*q.w); 
+
+	ret._12 = (2 * q.x*q.y) + (2 *q.z*q.w);
+	ret._22 = 1.0f - (2 * q.x*q.x) - (2*q.z*q.z);
+	ret._32 = (2 * q.y*q.z) - (2 *q.x*q.w);
+
+	ret._13 = (2 * q.x*q.z)- (2 *q.y*q.w);
+	ret._23 = (2 * q.y*q.z) + (2 *q.x*q.w);
+	ret._33 = 1.0f - (2 * q.x*q.x) - (2*q.y*q.y);
+
+	return ret;
+
+}
+
+inline bool Intersect(const Ray& ray, const Plane& plane, f32& distance)
+{
+	const Vector3 n = Normalize(plane.n);
+	f32 DirDotPlane = Dot(ray.dir, n);
+	f32 OrgDotPlane = Dot(ray.org, n);
+	if(DirDotPlane == 0.0f)
+	{
+		// ray and plane parallel
+		if(OrgDotPlane == plane.d)
+		{
+			distance = 0.0f;
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+	
+	distance = (plane.d - OrgDotPlane)/DirDotPlane;
+
+	return true;
+}
+inline bool Intersect(const Ray& ray, const AABB& aabb, f32& distEntry, f32& distExit)
+{
+	return false;
+}
+inline bool Intersect(const Ray& ray, const OBB& obb, f32& distEntry, f32& distExit)
+{
+	return false;
+}
+inline bool Intersect(const Vector3& point, const AABB& aabb)
+{
+	Vector3 p(point - aabb.center);
+	Vector3 e(aabb.extend);
+
+	return !(p.x < -e.x || p.x > e.x ||
+	   p.y < -e.y || p.y > e.y ||
+	   p.z < -e.z || p.z > e.z);
+}
+inline bool Intersect(const Vector3& point, const OBB& obb)
+{
+	// translate to obb space
+
+	Matrix matOBBInv = Inverse(Convert(obb.rot)); 
+	Vector3 p = point - obb.center;
+	Vector3 newPos = TransformCoord(p, matOBBInv);
+
+	Vector3 e(obb.extend);
+
+	return !(newPos.x < -e.x || newPos.x > e.x ||
+	   newPos.y < -e.y || newPos.y > e.y ||
+	   newPos.z < -e.z || newPos.z > e.z);
+}
+
+inline bool GetContactPoint(const Ray& ray, const OBB& obb, Vector3& point, Vector3& contactPoint)
+{
+	return false;
+}
+
 } // namespace Math

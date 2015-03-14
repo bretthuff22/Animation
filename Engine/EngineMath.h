@@ -27,6 +27,11 @@
 #include "Vector3.h"
 #include "Quaternion.h"
 #include "Matrix.h"
+#include "OBB.h"
+#include "SimpleMath.h"
+#include "Ray.h"
+#include "Plane.h"
+#include "AABB.h"
 
 namespace Math
 {
@@ -83,6 +88,18 @@ Vector3 TransformNormal(const Vector3& v, const Matrix& m);
 Vector3 Lerp(const Vector3& v0, const Vector3& v1, f32 t);
 Matrix Lerp(const Matrix& m0, const Matrix& m1, f32 t);
 Quaternion Slerp(Quaternion q0, Quaternion q1, f32 t);
+
+bool Intersect(const Ray& ray, const Plane& plane, f32& distance);
+bool Intersect(const Ray& ray, const AABB& aabb, f32& distEntry, f32& distExit);
+bool Intersect(const Ray& ray, const OBB& obb, f32& distEntry, f32& distExit);
+bool Intersect(const Vector3& point, const AABB& aabb);
+bool Intersect(const Vector3& point, const OBB& obb);
+
+bool GetContactPoint(const Ray& ray, const OBB& obb, Vector3& point, Vector3& contactPoint);
+
+
+Matrix Convert(const Quaternion& q);
+
 
 } // namespace Math
 
