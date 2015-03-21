@@ -51,14 +51,15 @@ void TestApp::OnInitialize(u32 width, u32 height)
 
 	PhysicsSettings settings;
 	settings.gravity = PhysicsHelper::kGravity;
-	settings.timeStep = PhysicsHelper::kDrag;
+	settings.drag = PhysicsHelper::kDrag;
 	settings.timeStep = PhysicsHelper::kTimeStep;
+	mWorld.Setup(settings);
 
 	Math::OBB obb(0,0,0,PhysicsHelper::lineWidth*PhysicsHelper::lineWidth, 1.0f, PhysicsHelper::lineHeight*PhysicsHelper::lineHeight);
 	mWorld.AddOBB(obb);
-	Math::OBB obb1(-2, 3, 0, 2.5f, 0.1f, 2.5f, 0,0,1, -0.4f);
+	Math::OBB obb1(-8, 5, 0, 8.0f, 0.1f, 8.0f, 0,0,1, -0.4f);
 	mWorld.AddOBB(obb1);
-	Math::OBB obb2(2, 5, 0, 2.5f, 0.1f, 2.5f, 0,0,1, 0.4f);
+	Math::OBB obb2(8, 8, 0, 8.0f, 0.1f, 8.0f, 0,0,1, 0.4f);
 	mWorld.AddOBB(obb2);
 
 }
@@ -165,12 +166,12 @@ void TestApp::OnUpdate()
 			mCamera.Strafe(-kMoveSpeed * mTimer.GetElapsedTime());
 		}
 		
-		
+		mWorld.StepSimulation(mTimer.GetElapsedTime());
 		// Render scene
 		mGraphicsSystem.BeginRender(Color::Black());
 
 		PhysicsHelper::DrawGroundPlane();
-		mWorld.StepSimulation(mTimer.GetElapsedTime());
+		
 		mWorld.Render();
 	
 		SimpleDraw::Render(mCamera);

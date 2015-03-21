@@ -32,6 +32,12 @@ struct PhysicsSettings
 	, drag(0.0f)
 	{}
 
+	PhysicsSettings(Math::Vector3 grav, f32 ts, f32 drg)
+	: gravity(grav)
+	, timeStep(ts)
+	, drag(drg)
+	{}
+
 	Math::Vector3 gravity;
 	f32 timeStep;
 	f32 drag;

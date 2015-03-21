@@ -69,6 +69,11 @@ PhysicsWorld::~PhysicsWorld()
 	ClearAll();
 }
 
+void PhysicsWorld::Setup(const PhysicsSettings& settings)
+{
+	mSettings = settings;
+}
+
 void PhysicsWorld::StepSimulation(f32 deltaTime)
 {
 	mTimer += deltaTime;

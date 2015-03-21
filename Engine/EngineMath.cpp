@@ -214,9 +214,9 @@ bool Intersect(const Vector3& point, const AABB& aabb)
 //	Vector3 p(point - aabb.center);
 //	Vector3 e(aabb.extend);
 
-	return (point.x > boxMin.x && point.x < boxMax.x &&
-			point.y > boxMin.y && point.y < boxMax.y &&
-			point.z > boxMin.z && point.z < boxMax.z );
+	return (point.x >= boxMin.x && point.x <= boxMax.x &&
+			point.y >= boxMin.y && point.y <= boxMax.y &&
+			point.z >= boxMin.z && point.z <= boxMax.z );
 }
 
 bool Intersect(const Vector3& point, const OBB& obb)
@@ -268,7 +268,7 @@ bool GetContactPoint(const Ray& ray, const OBB& obb, Vector3& point, Vector3& no
 	for(u32 i = 0; i < 6; ++i)
 	{
 		const f32 d = Dot(org, planes[i].n);
-		if(d < planes[i].d)
+		if(d > planes[i].d)
 		{
 			f32 distance = 0.0f;
 			if(Intersect(localRay, planes[i], distance) && distance > 0.0f)
