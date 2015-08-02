@@ -3,7 +3,7 @@
 
 //====================================================================================================
 // Filename:	AnimationController.h
-// Created by:	Peter Chan
+// Created by:	Brett Huff
 // Description:	Class for controlling animation playback.
 //====================================================================================================
 

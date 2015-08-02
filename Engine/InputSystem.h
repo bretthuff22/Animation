@@ -3,7 +3,7 @@
 
 //====================================================================================================
 // Filename:	InputSystem.h
-// Created by:	Peter Chan
+// Created by:	Brett Huff
 // Description:	Class for the input system with support for keyboard, mouse, and gamepad devices.
 //====================================================================================================
 

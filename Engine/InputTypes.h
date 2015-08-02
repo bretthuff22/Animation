@@ -3,7 +3,7 @@
 
 //====================================================================================================
 // Filename:	InputTypes.h
-// Created by:	Peter Chan
+// Created by:	Brett Huff
 // Description:	Header containing a bunch on constants for inputs.
 //====================================================================================================
 

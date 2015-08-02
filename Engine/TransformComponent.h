@@ -3,7 +3,7 @@
 
 //====================================================================================================
 // Filename:	TransformComponent.h
-// Created by:	Peter Chan
+// Created by:	Brett Huff
 // Description:	Class for the transform component.
 //====================================================================================================
 

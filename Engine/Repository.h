@@ -3,7 +3,7 @@
 
 //====================================================================================================
 // Filename:	Repository.h
-// Created by:	Peter Chan
+// Created by:	Brett Huff
 // Description:	Templatized class for a type repository.
 //====================================================================================================
 

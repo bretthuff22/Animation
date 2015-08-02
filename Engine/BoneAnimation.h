@@ -3,7 +3,7 @@
 
 //====================================================================================================
 // Filename:	BoneAnimation.h
-// Created by:	Peter Chan
+// Created by:	Brett Huff
 // Description:	Class for holding animation keyframes for a bone.
 //====================================================================================================
 

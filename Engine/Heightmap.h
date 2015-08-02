@@ -3,7 +3,7 @@
 
 //====================================================================================================
 // Filename:	Heightmap.h
-// Created by:	Peter Chan
+// Created by:	Brett Huff
 // Description:	Class for storing a 2D array of normalized [0, 1] height values.
 //====================================================================================================
 

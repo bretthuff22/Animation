@@ -3,7 +3,7 @@
 
 //====================================================================================================
 // Filename:	Service.h
-// Created by:	Peter Chan
+// Created by:	Brett Huff
 // Description:	Templatized base class for a game logic service. The service maintains a collection
 //				of subscribers for processing.
 //====================================================================================================

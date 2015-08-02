@@ -3,7 +3,7 @@
 
 //====================================================================================================
 // Filename:	Common.h
-// Created by:	Peter Chan
+// Created by:	Brett Huff
 // Description:	Header for common includes, typedefs, and helper functions.
 //====================================================================================================
 

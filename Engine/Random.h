@@ -3,7 +3,7 @@
 
 //====================================================================================================
 // Filename:	Random.h
-// Created by:	Peter Chan
+// Created by:	Brett Huff
 // Description:	Helper functions for generating random numbers.
 //====================================================================================================
 

@@ -3,7 +3,7 @@
 
 //====================================================================================================
 // Filename:	Resource.h
-// Created by:	Peter Chan
+// Created by:	Brett Huff
 // Description:	Base class for a reference counted resource.
 //====================================================================================================
 

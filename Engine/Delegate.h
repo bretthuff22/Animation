@@ -3,7 +3,7 @@
 
 //====================================================================================================
 // Filename:	Delegate.h
-// Created by:	Peter Chan
+// Created by:	Brett Huff
 // Description:	Simple delegate implementation based on the following link:
 //				http://www.codeproject.com/Articles/11015/The-Impossibly-Fast-C-Delegates
 // TODO:		For a truly generic version, refer to (requires C++11 Variadic Template support):

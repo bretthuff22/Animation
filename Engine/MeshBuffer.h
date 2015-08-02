@@ -3,7 +3,7 @@
 
 //====================================================================================================
 // Filename:	MeshBuffer.h
-// Created by:	Peter Chan
+// Created by:	Brett Huff
 // Description:	Class for holding the mesh vertex buffer and index buffer.
 //====================================================================================================
 

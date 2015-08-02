@@ -3,7 +3,7 @@
 
 //====================================================================================================
 // Filename:	SimpleDraw.h
-// Created by:	Peter Chan
+// Created by:	Brett Huff
 // Description:	Header containing some useful rendering functions.
 //====================================================================================================
 
